@@ -2,140 +2,108 @@
     ViewData["Title"] = "Login";
 }
 
-<section class="auth-page">
-    <div class="auth-card">
+<div class="kc-auth-page">
 
-        <div class="auth-header">
-            <h1>Welcome Back</h1>
-            <p>Login to your KasiCash account.</p>
+    <div class="kc-auth-side">
+
+        <div class="kc-logo-large">
+            K
         </div>
 
-        <form asp-controller="Account" asp-action="Login" method="post">
+        <span class="kc-eyebrow">
+            Welcome back
+        </span>
 
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email"
-                       id="email"
-                       name="email"
-                       placeholder="Enter your email"
-                       required />
+        <h1>
+            Your business keeps moving.
+            KasiCash keeps the record.
+        </h1>
+
+        <p>
+            Sign in to continue recording
+            sales, managing stock and
+            tracking customer credit.
+        </p>
+
+    </div>
+
+    <div class="kc-form-card">
+
+        <h2>
+            Sign in
+        </h2>
+
+        <p>
+            Access your KasiCash business account.
+        </p>
+
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="kc-alert-success">
+                @TempData["Success"]
             </div>
+        }
 
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password"
-                       id="password"
-                       name="password"
-                       placeholder="Enter your password"
-                       required />
-            </div>
-
-            <button type="submit" class="auth-button">
-                Login to KasiCash
-            </button>
-
-        </form>
-        @Html.AntiForgeryToken()
         @if (ViewBag.Error != null)
         {
-            <div class="alert alert-danger">
+            <div class="kc-alert-error">
                 @ViewBag.Error
             </div>
         }
 
-        <p class="auth-switch">
+        <form asp-controller="Account"
+              asp-action="Login"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <div class="kc-field">
+
+                <label>
+                    Email Address
+                </label>
+
+                <input type="email"
+                       name="email"
+                       required
+                       placeholder="you@example.com" />
+
+            </div>
+
+            <div class="kc-field">
+
+                <label>
+                    Password
+                </label>
+
+                <input type="password"
+                       name="password"
+                       required
+                       placeholder="Enter password" />
+
+            </div>
+
+            <button type="submit"
+                    class="kc-primary-button w-100">
+
+                Sign In
+
+            </button>
+
+        </form>
+
+        <div class="kc-auth-bottom">
+
             Don't have an account?
+
             <a asp-controller="Account"
-               asp-action="Register">Create Account</a>
-        </p>
+               asp-action="Register">
+                Create one
+            </a>
+
+        </div>
 
     </div>
-</section>
 
-<style>
-    .auth-page {
-        min-height: 85vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 50px 20px;
-        background: #f5f6f7;
-    }
-
-    .auth-card {
-        width: 100%;
-        max-width: 520px;
-        background: white;
-        padding: 40px;
-        border-radius: 20px;
-        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
-    }
-
-    .auth-header {
-        text-align: center;
-        margin-bottom: 30px;
-    }
-
-        .auth-header h1 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-
-        .auth-header p {
-            color: #666;
-        }
-
-    .form-group {
-        margin-bottom: 18px;
-    }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 7px;
-            font-weight: 600;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            font-size: 1rem;
-            box-sizing: border-box;
-        }
-
-            .form-group input:focus {
-                outline: none;
-                border-color: #159447;
-            }
-
-    .auth-button {
-        width: 100%;
-        padding: 15px;
-        border: none;
-        border-radius: 10px;
-        background: #159447;
-        color: white;
-        font-size: 1rem;
-        font-weight: 700;
-        cursor: pointer;
-        margin-top: 5px;
-    }
-
-        .auth-button:hover {
-            background: #117a3a;
-        }
-
-    .auth-switch {
-        text-align: center;
-        margin-top: 22px;
-        color: #666;
-    }
-
-        .auth-switch a {
-            color: #159447;
-            font-weight: 700;
-            text-decoration: none;
-        }
-</style>
+</div>

@@ -1,0 +1,436 @@
+﻿@model KasiCash.Models.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="kc-page">
+
+    <section class="kc-page-header">
+
+        <div>
+            <span class="kc-eyebrow">
+                Business overview
+            </span>
+
+            <h1>@Model.BusinessName</h1>
+
+            <p>
+                Manage your sales, stock and customer credit
+                from one place.
+            </p>
+        </div>
+
+        <a href="@Url.Action("Create", "Sales")"
+           class="kc-primary-button">
+            + Process Sale
+        </a>
+
+    </section>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="kc-alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="kc-alert-error">
+            @TempData["Error"]
+        </div>
+    }
+
+    <section class="kc-stat-grid">
+
+        <article class="kc-stat-card">
+
+            <div class="kc-stat-icon">
+                💰
+            </div>
+
+            <span>
+                Today's Sales
+            </span>
+
+            <strong>
+                R @Model.TodaySales.ToString("0.00")
+            </strong>
+
+            <small>
+                @Model.TodayTransactions transaction(s) today
+            </small>
+
+        </article>
+
+        <article class="kc-stat-card">
+
+            <div class="kc-stat-icon">
+                🤝
+            </div>
+
+            <span>
+                Money Owed
+            </span>
+
+            <strong>
+                R @Model.OutstandingCredit.ToString("0.00")
+            </strong>
+
+            <small>
+                @Model.OutstandingCustomers customer(s)
+            </small>
+
+        </article>
+
+        <article class="kc-stat-card">
+
+            <div class="kc-stat-icon">
+                📦
+            </div>
+
+            <span>
+                Stock Items
+            </span>
+
+            <strong>
+                @Model.TotalStockItems
+            </strong>
+
+            <small>
+                Across @Model.ProductCount product(s)
+            </small>
+
+        </article>
+
+        <article class="kc-stat-card">
+
+            <div class="kc-stat-icon">
+                ⚠️
+            </div>
+
+            <span>
+                Low Stock
+            </span>
+
+            <strong>
+                @Model.LowStockItems
+            </strong>
+
+            <small>
+                Product(s) need attention
+            </small>
+
+        </article>
+
+    </section>
+
+    <section class="kc-dashboard-grid">
+
+        <div class="kc-panel">
+
+            <div class="kc-panel-title">
+
+                <div>
+                    <span class="kc-eyebrow">
+                        Quick Actions
+                    </span>
+
+                    <h2>
+                        Run your shop
+                    </h2>
+                </div>
+
+            </div>
+
+            <div class="kc-action-grid">
+
+                <a href="@Url.Action("Create", "Sales")"
+                   class="kc-action">
+
+                    <span>🛒</span>
+
+                    <div>
+                        <strong>
+                            Process Sale
+                        </strong>
+
+                        <small>
+                            Record cash or credit
+                        </small>
+                    </div>
+
+                </a>
+
+                <a href="@Url.Action("Create", "Products")"
+                   class="kc-action">
+
+                    <span>➕</span>
+
+                    <div>
+                        <strong>
+                            Add Product
+                        </strong>
+
+                        <small>
+                            Add new stock
+                        </small>
+                    </div>
+
+                </a>
+
+                <a href="@Url.Action("Index", "Products")"
+                   class="kc-action">
+
+                    <span>📦</span>
+
+                    <div>
+                        <strong>
+                            View Stock
+                        </strong>
+
+                        <small>
+                            Manage inventory
+                        </small>
+                    </div>
+
+                </a>
+
+                <a href="@Url.Action("Index", "CreditSales")"
+                   class="kc-action">
+
+                    <span>🤝</span>
+
+                    <div>
+                        <strong>
+                            Credit Records
+                        </strong>
+
+                        <small>
+                            Track customer debt
+                        </small>
+                    </div>
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="kc-panel">
+
+            <div class="kc-panel-title">
+
+                <div>
+                    <span class="kc-eyebrow">
+                        Financial footprint
+                    </span>
+
+                    <h2>
+                        Business Activity
+                    </h2>
+                </div>
+
+            </div>
+
+            <div class="kc-finance-stack">
+
+                <div>
+                    <span>
+                        Total Recorded Sales
+                    </span>
+
+                    <strong>
+                        R @Model.TotalSales.ToString("0.00")
+                    </strong>
+                </div>
+
+                <div>
+                    <span>
+                        Cash Sales
+                    </span>
+
+                    <strong>
+                        R @Model.CashSales.ToString("0.00")
+                    </strong>
+                </div>
+
+                <div>
+                    <span>
+                        Credit Sales
+                    </span>
+
+                    <strong>
+                        R @Model.CreditSales.ToString("0.00")
+                    </strong>
+                </div>
+
+            </div>
+
+            <div class="kc-insight">
+
+                Every transaction recorded in KasiCash
+                contributes to a growing digital history
+                of your business activity.
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="kc-dashboard-grid">
+
+        <div class="kc-panel">
+
+            <div class="kc-panel-title">
+
+                <div>
+                    <span class="kc-eyebrow">
+                        Latest activity
+                    </span>
+
+                    <h2>
+                        Recent Sales
+                    </h2>
+                </div>
+
+            </div>
+
+            @if (!Model.RecentSales.Any())
+            {
+                <div class="kc-empty">
+
+                    <span>🧾</span>
+
+                    <h3>
+                        No sales recorded yet
+                    </h3>
+
+                    <p>
+                        Process your first sale and it
+                        will appear here.
+                    </p>
+
+                    <a href="@Url.Action("Create", "Sales")"
+                       class="kc-primary-button">
+                        Process First Sale
+                    </a>
+
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+
+                    <table class="table kc-table">
+
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Qty</th>
+                                <th>Payment</th>
+                                <th>Total</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var sale in Model.RecentSales)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @(sale.Product?.Name
+                                            ?? "Product")
+                                    </td>
+
+                                    <td>
+                                        @sale.Quantity
+                                    </td>
+
+                                    <td>
+                                        <span class="kc-badge">
+                                            @sale.PaymentType
+                                        </span>
+                                    </td>
+
+                                    <td class="fw-bold">
+                                        R @sale.TotalAmount.ToString("0.00")
+                                    </td>
+
+                                    <td>
+                                        @sale.SaleDate.ToString("dd MMM HH:mm")
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+
+        </div>
+
+        <div class="kc-panel">
+
+            <div class="kc-panel-title">
+
+                <div>
+                    <span class="kc-eyebrow">
+                        Stock intelligence
+                    </span>
+
+                    <h2>
+                        Stock Alerts
+                    </h2>
+                </div>
+
+            </div>
+
+            @if (!Model.LowStockProducts.Any())
+            {
+                <div class="kc-success-box">
+                    ✓ Your current stock levels look healthy.
+                </div>
+            }
+            else
+            {
+                @foreach (var product in Model.LowStockProducts)
+                {
+                    <div class="kc-stock-alert">
+
+                        <div>
+                            <strong>
+                                @product.Name
+                            </strong>
+
+                            <small>
+                                Warning level:
+                                @product.LowStockLevel
+                            </small>
+                        </div>
+
+                        <span>
+                            @product.QuantityInStock left
+                        </span>
+
+                    </div>
+                }
+
+                <a href="@Url.Action("Index", "Products")"
+                   class="kc-secondary-button w-100 mt-3">
+                    Manage Stock
+                </a>
+            }
+
+        </div>
+
+    </section>
+
+</div>

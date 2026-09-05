@@ -1,0 +1,144 @@
+@model IEnumerable<KasiCash.Models.Product>
+
+@{
+    ViewData["Title"] = "Stock";
+}
+
+<div class="kc-page">
+
+    <section class="kc-page-header">
+
+        <div>
+
+            <span class="kc-eyebrow">
+                Inventory
+            </span>
+
+            <h1>
+                Products & Stock
+            </h1>
+
+            <p>
+                Keep track of what you have
+                and what needs restocking.
+            </p>
+
+        </div>
+
+        <a asp-action="Create"
+           class="kc-primary-button">
+            + Add Product
+        </a>
+
+    </section>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="kc-alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="kc-empty kc-panel">
+
+            <span>📦</span>
+
+            <h3>
+                Your stock list is empty
+            </h3>
+
+            <p>
+                Add your first product
+                to start processing sales.
+            </p>
+
+            <a asp-action="Create"
+               class="kc-primary-button">
+                Add Product
+            </a>
+
+        </div>
+    }
+    else
+    {
+        <div class="kc-product-grid">
+
+        @foreach (var product in Model)
+        {
+            var low =
+                product.QuantityInStock <=
+                product.LowStockLevel;
+
+            <article class="kc-product-card">
+
+                <div class="kc-product-top">
+
+                    <div class="kc-product-icon">
+                        📦
+                    </div>
+
+                    @if (low)
+                    {
+                        <span class="kc-status danger">
+                            Low Stock
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="kc-status success">
+                            Healthy
+                        </span>
+                    }
+
+                </div>
+
+                <h3>
+                    @product.Name
+                </h3>
+
+                <strong class="kc-product-price">
+                    R @product.SellingPrice
+                        .ToString("0.00")
+                </strong>
+
+                <div class="kc-stock-row">
+
+                    <span>
+                        Available
+                    </span>
+
+                    <strong>
+                        @product.QuantityInStock
+                    </strong>
+
+                </div>
+
+                <div class="kc-stock-row">
+
+                    <span>
+                        Warning at
+                    </span>
+
+                    <strong>
+                        @product.LowStockLevel
+                    </strong>
+
+                </div>
+
+                <a asp-action="Edit"
+                   asp-route-id="@product.Id"
+                   class="kc-secondary-button w-100 text-center mt-3">
+
+                    Edit Product
+
+                </a>
+
+            </article>
+        }
+
+        </div>
+    }
+
+</div>

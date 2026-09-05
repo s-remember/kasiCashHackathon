@@ -1,0 +1,107 @@
+@model KasiCash.Models.Product
+
+@{
+    ViewData["Title"] = "Add Product";
+}
+
+<div class="kc-auth-page">
+
+    <div class="kc-form-card">
+
+        <span class="kc-eyebrow">
+            Inventory
+        </span>
+
+        <h1>
+            Add Product
+        </h1>
+
+        <p>
+            Add the product once.
+            KasiCash remembers the price
+            and stock for future sales.
+        </p>
+
+        <form asp-action="Create"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger">
+            </div>
+
+            <div class="kc-field">
+
+                <label asp-for="Name">
+                    Product Name
+                </label>
+
+                <input asp-for="Name"
+                       placeholder="e.g. White Bread" />
+
+                <span asp-validation-for="Name"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+            <div class="kc-field">
+
+                <label asp-for="SellingPrice">
+                    Selling Price
+                </label>
+
+                <input asp-for="SellingPrice"
+                       type="number"
+                       min="0.01"
+                       step="0.01"
+                       placeholder="20.00" />
+
+            </div>
+
+            <div class="kc-field">
+
+                <label asp-for="QuantityInStock">
+                    Quantity In Stock
+                </label>
+
+                <input asp-for="QuantityInStock"
+                       type="number"
+                       min="0"
+                       placeholder="30" />
+
+            </div>
+
+            <div class="kc-field">
+
+                <label asp-for="LowStockLevel">
+                    Low Stock Warning
+                </label>
+
+                <input asp-for="LowStockLevel"
+                       type="number"
+                       min="0" />
+
+                <small>
+                    We'll warn you when stock reaches
+                    this amount.
+                </small>
+
+            </div>
+
+            <button type="submit"
+                    class="kc-primary-button w-100">
+                Add Product
+            </button>
+
+            <a asp-action="Index"
+               class="kc-text-link">
+                Back to stock
+            </a>
+
+        </form>
+
+    </div>
+
+</div>

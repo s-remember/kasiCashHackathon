@@ -24,7 +24,7 @@ namespace KasiCash.Models
 
         public DateTime DueDate { get; set; }
 
-        public bool IsPaid { get; set; } = false;
+        public bool IsPaid { get; set; }
 
         public DateTime? PaidDate { get; set; }
     }

@@ -2,58 +2,140 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>@ViewData["Title"] - KasiCash</title>
+    <meta name="viewport"
+          content="width=device-width,
+                   initial-scale=1.0" />
 
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <title>
+        @ViewData["Title"] - KasiCash
+    </title>
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
 </head>
 
 <body>
 
-    <header class="main-navbar">
-        <div class="nav-container">
+<header class="kc-nav">
 
-            <a class="brand" asp-controller="Home" asp-action="Index">
+    <div class="kc-nav-inner">
+
+        <a class="kc-brand"
+           asp-controller="Home"
+           asp-action="Index">
+
+            <span class="kc-logo">K</span>
+
+            <span>
                 KasiCash
+            </span>
+
+        </a>
+
+        <nav class="kc-links">
+
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <a asp-controller="Dashboard"
+               asp-action="Index">
+                Dashboard
             </a>
 
-            <nav class="nav-links">
-                <a asp-controller="Home" asp-action="Index">Home</a>
+            <a asp-controller="Sales"
+               asp-action="Create">
+                Process Sale
+            </a>
 
-                <a href="#features">Features</a>
+            <a asp-controller="Products"
+               asp-action="Index">
+                Stock
+            </a>
 
-                <a href="#how-it-works">How It Works</a>
+            <a asp-controller="CreditSales"
+               asp-action="Index">
+                Credit
+            </a>
 
-                <a href="#" class="nav-login">Login</a>
+            <form asp-controller="Account"
+                  asp-action="Logout"
+                  method="post">
 
-                <a asp-controller="Account" asp-action="Register" class="nav-start">
-                    Get Started
-                </a>
-            </nav>
+                @Html.AntiForgeryToken()
 
-        </div>
-    </header>
+                <button type="submit"
+                        class="kc-outline-button">
+                    Logout
+                </button>
 
-    <main>
-        @RenderBody()
-    </main>
+            </form>
+        }
+        else
+        {
+            <a asp-controller="Home"
+               asp-action="Index">
+                Home
+            </a>
 
-    <footer class="kasi-footer">
-        <div>
-            <strong>KasiCash</strong>
-            <p>Turning everyday cash into financial opportunity.</p>
-        </div>
+            <a asp-controller="Home"
+               asp-action="Index"
+               asp-fragment="features">
+                Features
+            </a>
 
-        <p>© 2026 KasiCash</p>
-    </footer>
+            <a asp-controller="Account"
+               asp-action="Login">
+                Login
+            </a>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+            <a asp-controller="Account"
+               asp-action="Register"
+               class="kc-nav-cta">
+                Get Started
+            </a>
+        }
 
-    @await RenderSectionAsync("Scripts", required: false)
+        </nav>
+
+    </div>
+
+</header>
+
+<main class="kc-main">
+    @RenderBody()
+</main>
+
+<footer class="kc-footer">
+
+    <div>
+        <strong>KasiCash</strong>
+        <span>
+            Your business. Your records.
+            Your financial future.
+        </span>
+    </div>
+
+    <span>
+        © 2026 KasiCash
+    </span>
+
+</footer>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="~/js/site.js"
+        asp-append-version="true">
+</script>
+
+@await RenderSectionAsync(
+    "Scripts",
+    required: false)
 
 </body>
 </html>

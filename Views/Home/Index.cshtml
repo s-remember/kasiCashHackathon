@@ -1,78 +1,243 @@
 ﻿@{
-    ViewData["Title"] = "KasiCash";
+    ViewData["Title"] = "Home";
 }
 
-<section class="hero">
-    <div class="hero-content">
-        <h1>KasiCash</h1>
-        <h2>Turn everyday cash into a financial identity.</h2>
+<section class="kc-hero">
+
+    <div class="kc-hero-copy">
+
+        <div class="kc-eyebrow">
+            Built for kasi entrepreneurs
+        </div>
+
+        <h1>
+            Your till.
+            Your stock.
+            Your financial story.
+        </h1>
 
         <p>
-            KasiCash helps kasi entrepreneurs record sales, track expenses,
-            understand profits and build a financial history that can unlock
-            future access to credit, insurance and other financial services.
+            KasiCash helps informal and micro-businesses
+            record everyday sales, manage stock,
+            track customer credit and build a trusted
+            digital record of business activity.
         </p>
 
-        <div class="hero-buttons">
-            <a asp-controller="Account" asp-action="Register" class="btn-primary">
-                Get Started
+        <div class="kc-hero-actions">
+
+            <a asp-controller="Account"
+               asp-action="Register"
+               class="kc-primary-button">
+                Start with KasiCash
             </a>
-            <a href="#" class="btn-secondary">Login</a>
+
+            <a asp-controller="Account"
+               asp-action="Login"
+               class="kc-secondary-button">
+                Sign in
+            </a>
+
         </div>
+
+        <div class="kc-trust-row">
+
+            <span>✓ Simple sales</span>
+            <span>✓ Stock alerts</span>
+            <span>✓ Credit tracking</span>
+
+        </div>
+
     </div>
+
+    <div class="kc-hero-card">
+
+        <div class="kc-preview-top">
+
+            <span>
+                Today's business
+            </span>
+
+            <span class="kc-live">
+                ● LIVE
+            </span>
+
+        </div>
+
+        <div class="kc-preview-amount">
+            R 2,480.00
+        </div>
+
+        <div class="kc-preview-label">
+            Recorded sales
+        </div>
+
+        <div class="kc-preview-grid">
+
+            <div>
+                <strong>18</strong>
+                <span>Sales</span>
+            </div>
+
+            <div>
+                <strong>4</strong>
+                <span>Credit</span>
+            </div>
+
+            <div>
+                <strong>3</strong>
+                <span>Low stock</span>
+            </div>
+
+        </div>
+
+    </div>
+
 </section>
 
-<section class="features" id="features">
-    <h2>Run your kasi business smarter</h2>
+<section id="features"
+         class="kc-section">
 
-    <div class="feature-grid">
+    <div class="kc-section-heading">
 
-        <div class="feature-card">
-            <h3>💰 Record Sales</h3>
-            <p>Quickly capture your daily cash and digital sales.</p>
-        </div>
+        <span class="kc-eyebrow">
+            One place. Less admin.
+        </span>
 
-        <div class="feature-card">
-            <h3>🧾 Track Expenses</h3>
-            <p>Record stock, transport, rent and other business costs.</p>
-        </div>
+        <h2>
+            Everything the shop owner needs
+            during a busy day.
+        </h2>
 
-        <div class="feature-card">
-            <h3>📊 Know Your Profit</h3>
-            <p>See how much your business earns after expenses.</p>
-        </div>
+    </div>
 
-        <div class="feature-card">
-            <h3>🪪 Build Your Financial Identity</h3>
+    <div class="kc-feature-grid">
+
+        <article class="kc-feature-card">
+
+            <div class="kc-feature-icon">
+                🛒
+            </div>
+
+            <h3>
+                Fast POS Sales
+            </h3>
+
             <p>
-                Your business activity creates a digital financial history
-                that grows with your business.
+                Select a product, quantity and payment
+                type. KasiCash calculates the total
+                automatically.
             </p>
-        </div>
+
+        </article>
+
+        <article class="kc-feature-card">
+
+            <div class="kc-feature-icon">
+                📦
+            </div>
+
+            <h3>
+                Smart Stock
+            </h3>
+
+            <p>
+                Stock decreases automatically after each
+                sale and low-stock items are highlighted.
+            </p>
+
+        </article>
+
+        <article class="kc-feature-card">
+
+            <div class="kc-feature-icon">
+                🤝
+            </div>
+
+            <h3>
+                Customer Credit
+            </h3>
+
+            <p>
+                Know who owes your business, how much
+                they owe and when payment is due.
+            </p>
+
+        </article>
+
+        <article class="kc-feature-card">
+
+            <div class="kc-feature-icon">
+                📈
+            </div>
+
+            <h3>
+                Financial Footprint
+            </h3>
+
+            <p>
+                Every recorded transaction contributes
+                to a growing digital history of the
+                business.
+            </p>
+
+        </article>
 
     </div>
+
 </section>
 
-<section class="how-it-works" id="how-it-works">
-    <h2>How KasiCash Works</h2>
+<section id="how-it-works"
+         class="kc-section kc-soft-section">
 
-    <div class="steps">
+    <div class="kc-section-heading">
+
+        <span class="kc-eyebrow">
+            How it works
+        </span>
+
+        <h2>
+            From a cash transaction
+            to usable business history.
+        </h2>
+
+    </div>
+
+    <div class="kc-steps">
+
         <div>
             <span>1</span>
             <h3>Record</h3>
-            <p>Add your daily sales and expenses.</p>
+            <p>
+                Capture cash and credit sales.
+            </p>
         </div>
 
         <div>
             <span>2</span>
-            <h3>Grow</h3>
-            <p>Build a trusted record of your business activity.</p>
+            <h3>Manage</h3>
+            <p>
+                Monitor stock and customer debt.
+            </p>
         </div>
 
         <div>
             <span>3</span>
-            <h3>Unlock</h3>
-            <p>Move towards credit, insurance and other financial opportunities.</p>
+            <h3>Understand</h3>
+            <p>
+                See real business activity
+                on your dashboard.
+            </p>
         </div>
+
+        <div>
+            <span>4</span>
+            <h3>Grow</h3>
+            <p>
+                Build a stronger digital
+                financial footprint.
+            </p>
+        </div>
+
     </div>
+
 </section>

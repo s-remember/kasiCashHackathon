@@ -1,0 +1,322 @@
+@model IEnumerable<KasiCash.Models.Product>
+
+@{
+    ViewData["Title"] = "Process Sale";
+}
+
+<div class="kc-page">
+
+    <section class="kc-page-header">
+
+        <div>
+
+            <span class="kc-eyebrow">
+                Point of Sale
+            </span>
+
+            <h1>
+                Process Sale
+            </h1>
+
+            <p>
+                Select the product,
+                quantity and payment type.
+            </p>
+
+        </div>
+
+        <a asp-controller="Products"
+           asp-action="Create"
+           class="kc-secondary-button">
+
+            + Add Product
+
+        </a>
+
+    </section>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="kc-alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="kc-alert-error">
+            @TempData["Error"]
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="kc-panel kc-empty">
+
+            <span>🛒</span>
+
+            <h3>
+                Nothing to sell yet
+            </h3>
+
+            <p>
+                Add products and stock first.
+            </p>
+
+            <a asp-controller="Products"
+               asp-action="Create"
+               class="kc-primary-button">
+                Add Product
+            </a>
+
+        </div>
+    }
+    else
+    {
+        <div class="kc-sale-grid">
+
+        @foreach (var product in Model)
+        {
+            <article class="kc-sale-card">
+
+                <div class="kc-product-top">
+
+                    <div class="kc-product-icon">
+                        🛍️
+                    </div>
+
+                    <span class="kc-stock-pill">
+                        @product.QuantityInStock left
+                    </span>
+
+                </div>
+
+                <h2>
+                    @product.Name
+                </h2>
+
+                <div class="kc-product-price">
+                    R @product.SellingPrice
+                        .ToString("0.00")
+                </div>
+
+                @if (product.QuantityInStock <=
+                     product.LowStockLevel)
+                {
+                    <div class="kc-mini-warning">
+                        ⚠ Running low
+                    </div>
+                }
+
+                <form asp-action="CompleteSale"
+                      method="post"
+                      class="kc-sale-form">
+
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden"
+                           name="productId"
+                           value="@product.Id" />
+
+                    <input type="hidden"
+                           class="product-price"
+                           value="@product.SellingPrice" />
+
+                    <div class="kc-field">
+
+                        <label>
+                            Quantity
+                        </label>
+
+                        <input type="number"
+                               name="quantity"
+                               value="1"
+                               min="1"
+                               max="@product.QuantityInStock"
+                               class="quantity-input"
+                               required />
+
+                    </div>
+
+                    <div class="kc-total-box">
+
+                        <span>
+                            Total
+                        </span>
+
+                        <strong class="estimated-total">
+                            R @product.SellingPrice
+                                .ToString("0.00")
+                        </strong>
+
+                    </div>
+
+                    <div class="kc-field">
+
+                        <label>
+                            Payment Method
+                        </label>
+
+                        <select name="paymentType"
+                                class="payment-type"
+                                required>
+
+                            <option value="Cash">
+                                Cash
+                            </option>
+
+                            <option value="Credit">
+                                Credit
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="credit-fields d-none">
+
+                        <div class="kc-credit-box">
+
+                            <h4>
+                                Customer Credit Details
+                            </h4>
+
+                            <div class="kc-field">
+
+                                <label>
+                                    Customer Name
+                                </label>
+
+                                <input type="text"
+                                       name="customerName"
+                                       maxlength="100"
+                                       class="customer-name"
+                                       placeholder="Customer name" />
+
+                            </div>
+
+                            <div class="kc-field">
+
+                                <label>
+                                    Phone Number
+                                </label>
+
+                                <input type="text"
+                                       name="customerPhone"
+                                       maxlength="20"
+                                       placeholder="Optional" />
+
+                            </div>
+
+                            <div class="kc-field">
+
+                                <label>
+                                    Due Date
+                                </label>
+
+                                <input type="date"
+                                       name="dueDate" />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <button type="submit"
+                            class="kc-primary-button w-100">
+
+                        Confirm Sale
+
+                    </button>
+
+                </form>
+
+            </article>
+        }
+
+        </div>
+    }
+
+</div>
+
+@section Scripts
+{
+<script>
+
+document
+.querySelectorAll(".kc-sale-form")
+.forEach(function (form) {
+
+    const payment =
+        form.querySelector(
+            ".payment-type");
+
+    const creditFields =
+        form.querySelector(
+            ".credit-fields");
+
+    const customerName =
+        form.querySelector(
+            ".customer-name");
+
+    const quantity =
+        form.querySelector(
+            ".quantity-input");
+
+    const price =
+        parseFloat(
+            form.querySelector(
+                ".product-price"
+            ).value
+        );
+
+    const total =
+        form.querySelector(
+            ".estimated-total");
+
+    function updateCredit() {
+
+        const isCredit =
+            payment.value === "Credit";
+
+        creditFields.classList.toggle(
+            "d-none",
+            !isCredit
+        );
+
+        customerName.required =
+            isCredit;
+    }
+
+    function updateTotal() {
+
+        let qty =
+            parseInt(
+                quantity.value
+            );
+
+        if (!qty || qty < 1) {
+            qty = 1;
+        }
+
+        total.textContent =
+            "R " +
+            (price * qty)
+                .toFixed(2);
+    }
+
+    payment.addEventListener(
+        "change",
+        updateCredit);
+
+    quantity.addEventListener(
+        "input",
+        updateTotal);
+
+    updateCredit();
+    updateTotal();
+});
+
+</script>
+}

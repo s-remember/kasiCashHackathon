@@ -12,12 +12,15 @@ namespace KasiCash.Models
         public string Name { get; set; } = string.Empty;
 
         [Required]
+        [Range(0.01, 999999999)]
         [Column(TypeName = "decimal(18,2)")]
         public decimal SellingPrice { get; set; }
 
         [Required]
+        [Range(0, int.MaxValue)]
         public int QuantityInStock { get; set; }
 
+        [Range(0, int.MaxValue)]
         public int LowStockLevel { get; set; } = 5;
 
         [Required]

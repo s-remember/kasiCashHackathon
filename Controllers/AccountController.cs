@@ -17,13 +17,16 @@ namespace KasiCash.Controllers
             _signInManager = signInManager;
         }
 
-        // =========================
-        // REGISTRATION
-        // =========================
-
         [HttpGet]
         public IActionResult Register()
         {
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                return RedirectToAction(
+                    "Index",
+                    "Dashboard");
+            }
+
             return View();
         }
 
@@ -38,51 +41,80 @@ namespace KasiCash.Controllers
             string password,
             string confirmPassword)
         {
-            if (password != confirmPassword)
+            if (string.IsNullOrWhiteSpace(fullName) ||
+                string.IsNullOrWhiteSpace(businessName) ||
+                string.IsNullOrWhiteSpace(businessType) ||
+                string.IsNullOrWhiteSpace(email))
             {
-                ViewBag.Error = "Passwords do not match.";
+                ViewBag.Error =
+                    "Please complete all required fields.";
+
                 return View();
             }
 
-            var existingUser = await _userManager.FindByEmailAsync(email);
+            if (password != confirmPassword)
+            {
+                ViewBag.Error =
+                    "Passwords do not match.";
+
+                return View();
+            }
+
+            var existingUser =
+                await _userManager.FindByEmailAsync(email);
 
             if (existingUser != null)
             {
-                ViewBag.Error = "An account with this email already exists.";
+                ViewBag.Error =
+                    "An account with this email already exists.";
+
                 return View();
             }
 
             var user = new ApplicationUser
             {
-                UserName = email,
-                Email = email,
-                FullName = fullName,
-                BusinessName = businessName,
-                BusinessType = businessType,
-                PhoneNumber = phoneNumber
+                UserName = email.Trim(),
+                Email = email.Trim(),
+                FullName = fullName.Trim(),
+                BusinessName = businessName.Trim(),
+                BusinessType = businessType.Trim(),
+                PhoneNumber = phoneNumber?.Trim()
             };
 
-            var result = await _userManager.CreateAsync(user, password);
+            var result =
+                await _userManager.CreateAsync(
+                    user,
+                    password);
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Login");
+                await _signInManager.SignInAsync(
+                    user,
+                    isPersistent: false);
+
+                return RedirectToAction(
+                    "Index",
+                    "Dashboard");
             }
 
             ViewBag.Error = string.Join(
                 " ",
-                result.Errors.Select(error => error.Description));
+                result.Errors.Select(
+                    error => error.Description));
 
             return View();
         }
 
-        // =========================
-        // LOGIN
-        // =========================
-
         [HttpGet]
         public IActionResult Login()
         {
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                return RedirectToAction(
+                    "Index",
+                    "Dashboard");
+            }
+
             return View();
         }
 
@@ -92,25 +124,43 @@ namespace KasiCash.Controllers
             string email,
             string password)
         {
-            var result = await _signInManager.PasswordSignInAsync(
-                email,
-                password,
-                isPersistent: false,
-                lockoutOnFailure: true);
+            if (string.IsNullOrWhiteSpace(email) ||
+                string.IsNullOrWhiteSpace(password))
+            {
+                ViewBag.Error =
+                    "Enter your email and password.";
+
+                return View();
+            }
+
+            var result =
+                await _signInManager.PasswordSignInAsync(
+                    email.Trim(),
+                    password,
+                    isPersistent: false,
+                    lockoutOnFailure: true);
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Dashboard");
+                TempData["Success"] =
+                    "Account created successfully. Please sign in.";
+
+                return RedirectToAction("Login");
             }
 
-            ViewBag.Error = "Invalid email or password.";
+            if (result.IsLockedOut)
+            {
+                ViewBag.Error =
+                    "Too many failed attempts. Please try again shortly.";
+
+                return View();
+            }
+
+            ViewBag.Error =
+                "Invalid email or password.";
 
             return View();
         }
-
-        // =========================
-        // LOGOUT
-        // =========================
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -118,7 +168,9 @@ namespace KasiCash.Controllers
         {
             await _signInManager.SignOutAsync();
 
-            return RedirectToAction("Login");
+            return RedirectToAction(
+                "Index",
+                "Home");
         }
     }
 }

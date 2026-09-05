@@ -1,0 +1,169 @@
+@model IEnumerable<KasiCash.Models.CreditSale>
+
+@{
+    ViewData["Title"] = "Credit";
+}
+
+<div class="kc-page">
+
+    <section class="kc-page-header">
+
+        <div>
+
+            <span class="kc-eyebrow">
+                Customer Credit
+            </span>
+
+            <h1>
+                Money Owed
+            </h1>
+
+            <p>
+                Keep a reliable record of
+                customers who buy on credit.
+            </p>
+
+        </div>
+
+        <a asp-controller="Sales"
+           asp-action="Create"
+           class="kc-primary-button">
+
+            + New Sale
+
+        </a>
+
+    </section>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="kc-alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="kc-panel kc-empty">
+
+            <span>🤝</span>
+
+            <h3>
+                No credit records
+            </h3>
+
+            <p>
+                Credit sales will appear
+                here automatically.
+            </p>
+
+        </div>
+    }
+    else
+    {
+        <div class="kc-credit-list">
+
+        @foreach (var credit in Model)
+        {
+            var overdue =
+                !credit.IsPaid &&
+                credit.DueDate.Date <
+                DateTime.Today;
+
+            <article class="kc-credit-card">
+
+                <div>
+
+                    <div class="kc-credit-name">
+
+                        @credit.CustomerName
+
+                    </div>
+
+                    <div class="kc-credit-product">
+
+                        @(credit.Sale?.Product?.Name
+                            ?? "Product")
+
+                        @if (!string.IsNullOrWhiteSpace(
+                            credit.CustomerPhone))
+                        {
+                            <span>
+                                • @credit.CustomerPhone
+                            </span>
+                        }
+
+                    </div>
+
+                </div>
+
+                <div class="kc-credit-amount">
+
+                    <strong>
+                        R @credit.AmountOwed
+                            .ToString("0.00")
+                    </strong>
+
+                    <span>
+                        Due
+                        @credit.DueDate
+                            .ToString("dd MMM yyyy")
+                    </span>
+
+                </div>
+
+                <div>
+
+                @if (credit.IsPaid)
+                {
+                    <span class="kc-status success">
+                        Paid
+                    </span>
+                }
+                else if (overdue)
+                {
+                    <span class="kc-status danger">
+                        Overdue
+                    </span>
+                }
+                else
+                {
+                    <span class="kc-status warning">
+                        Outstanding
+                    </span>
+                }
+
+                </div>
+
+                <div>
+
+                @if (!credit.IsPaid)
+                {
+                    <form asp-action="MarkPaid"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden"
+                               name="id"
+                               value="@credit.Id" />
+
+                        <button type="submit"
+                                class="kc-small-button">
+
+                            Mark Paid
+
+                        </button>
+
+                    </form>
+                }
+
+                </div>
+
+            </article>
+        }
+
+        </div>
+    }
+
+</div>

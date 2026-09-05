@@ -1,0 +1,86 @@
+@model KasiCash.Models.Product
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<div class="kc-auth-page">
+
+    <div class="kc-form-card">
+
+        <span class="kc-eyebrow">
+            Inventory
+        </span>
+
+        <h1>
+            Edit Product
+        </h1>
+
+        <form asp-action="Edit"
+              asp-route-id="@Model.Id"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <div class="kc-field">
+
+                <label asp-for="Name">
+                    Product Name
+                </label>
+
+                <input asp-for="Name" />
+
+            </div>
+
+            <div class="kc-field">
+
+                <label asp-for="SellingPrice">
+                    Selling Price
+                </label>
+
+                <input asp-for="SellingPrice"
+                       type="number"
+                       min="0.01"
+                       step="0.01" />
+
+            </div>
+
+            <div class="kc-field">
+
+                <label asp-for="QuantityInStock">
+                    Quantity In Stock
+                </label>
+
+                <input asp-for="QuantityInStock"
+                       type="number"
+                       min="0" />
+
+            </div>
+
+            <div class="kc-field">
+
+                <label asp-for="LowStockLevel">
+                    Low Stock Warning
+                </label>
+
+                <input asp-for="LowStockLevel"
+                       type="number"
+                       min="0" />
+
+            </div>
+
+            <button type="submit"
+                    class="kc-primary-button w-100">
+                Save Changes
+            </button>
+
+            <a asp-action="Index"
+               class="kc-text-link">
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
