@@ -1,0 +1,167 @@
+﻿@{
+    ViewData["Title"] = "Create Account";
+}
+
+<section class="auth-page">
+    <div class="auth-card">
+
+        <div class="auth-header">
+            <h1>Join KasiCash</h1>
+            <p>Start building your business financial identity today.</p>
+        </div>
+
+        <form method="post">
+            @Html.AntiForgeryToken()
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger">
+                    @ViewBag.Error
+                </div>
+            }
+
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="FullName" placeholder="Enter your full name" required />
+            </div>
+
+            <div class="form-group">
+                <label>Business Name</label>
+                <input type="text" name="BusinessName" placeholder="e.g. Mama Thandi's Kota Spot" required />
+            </div>
+
+            <div class="form-group">
+                <label>Business Type</label>
+                <select name="BusinessType" required>
+                    <option value="">Select business type</option>
+                    <option>Spaza Shop</option>
+                    <option>Street Vendor</option>
+                    <option>Food Business</option>
+                    <option>Salon / Barber</option>
+                    <option>Clothing Business</option>
+                    <option>Mechanic</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" name="PhoneNumber" placeholder="e.g. 071 234 5678" required />
+            </div>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" name="Email" placeholder="Enter your email" required />
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="Password" placeholder="Create a password" required />
+            </div>
+
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" name="ConfirmPassword" placeholder="Confirm your password" required />
+            </div>
+
+            <button type="submit" class="auth-button">
+                Create My KasiCash Account
+            </button>
+
+        </form>
+
+        <p class="auth-switch">
+            Already have an account?
+            <a asp-controller="Account" asp-action="Login">Login</a>
+        </p>
+
+    </div>
+</section>
+<style>
+/* =========================
+KASICASH AUTH PAGES
+========================= */
+
+.auth-page {
+min-height: 85vh;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 50px 20px;
+background: #f5f6f7;
+}
+
+.auth-card {
+width: 100%;
+max-width: 520px;
+background: white;
+padding: 40px;
+border-radius: 20px;
+box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+}
+
+.auth-header {
+text-align: center;
+margin-bottom: 30px;
+}
+
+.auth-header h1 {
+font-size: 2.2rem;
+font-weight: 800;
+margin-bottom: 8px;
+}
+
+.auth-header p {
+color: #666;
+}
+
+.form-group {
+margin-bottom: 18px;
+}
+
+.form-group label {
+display: block;
+margin-bottom: 7px;
+font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+width: 100%;
+padding: 13px 14px;
+border: 1px solid #d5d5d5;
+border-radius: 10px;
+outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+border-color: #27ae60;
+box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.12);
+}
+
+.auth-button {
+width: 100%;
+border: none;
+background: #27ae60;
+color: white;
+padding: 14px;
+border-radius: 10px;
+font-weight: 700;
+margin-top: 8px;
+}
+
+.auth-button:hover {
+background: #219150;
+}
+
+.auth-switch {
+text-align: center;
+margin-top: 22px;
+}
+
+.auth-switch a {
+color: #27ae60;
+font-weight: 700;
+text-decoration: none;
+}
+</style>

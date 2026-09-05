@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - KasiCash</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<body>
+
+    <header class="main-navbar">
+        <div class="nav-container">
+
+            <a class="brand" asp-controller="Home" asp-action="Index">
+                KasiCash
+            </a>
+
+            <nav class="nav-links">
+                <a asp-controller="Home" asp-action="Index">Home</a>
+
+                <a href="#features">Features</a>
+
+                <a href="#how-it-works">How It Works</a>
+
+                <a href="#" class="nav-login">Login</a>
+
+                <a asp-controller="Account" asp-action="Register" class="nav-start">
+                    Get Started
+                </a>
+            </nav>
+
+        </div>
+    </header>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer class="kasi-footer">
+        <div>
+            <strong>KasiCash</strong>
+            <p>Turning everyday cash into financial opportunity.</p>
+        </div>
+
+        <p>© 2026 KasiCash</p>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>
