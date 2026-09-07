@@ -1,144 +1,537 @@
 @model IEnumerable<KasiCash.Models.Product>
 
 @{
-    ViewData["Title"] = "Stock";
+    ViewData["Title"] = "Inventory";
+
+    var products = Model.ToList();
+
+    var totalProducts = products.Count;
+
+    var totalUnits =
+        products.Sum(p => p.QuantityInStock);
+
+    var lowStockCount =
+        products.Count(p =>
+            p.QuantityInStock <=
+            p.LowStockLevel);
+
+    var healthyCount =
+        totalProducts - lowStockCount;
 }
 
 <div class="kc-page">
 
-    <section class="kc-page-header">
 
-        <div>
+    <!-- ==================================================
+         INVENTORY HERO
+         ================================================== -->
+
+    <section class="kc-inventory-hero">
+
+        <div class="kc-inventory-hero-copy">
 
             <span class="kc-eyebrow">
-                Inventory
+                Inventory control
             </span>
 
             <h1>
-                Products & Stock
+                Know what is in stock
+                before it runs out.
             </h1>
 
             <p>
-                Keep track of what you have
-                and what needs restocking.
+                Keep product quantities, prices and
+                restock levels in one place. KasiCash
+                updates inventory as sales are recorded,
+                helping you make better restocking decisions.
             </p>
+
+
+            <div class="kc-inventory-hero-actions">
+
+                <a asp-action="Create"
+                   class="kc-primary-button">
+
+                    + Add Product
+
+                </a>
+
+                <a asp-controller="Sales"
+                   asp-action="Create"
+                   class="kc-secondary-button">
+
+                    Process Sale
+
+                </a>
+
+            </div>
 
         </div>
 
-        <a asp-action="Create"
-           class="kc-primary-button">
-            + Add Product
-        </a>
+
+        <div class="kc-inventory-hero-visual">
+
+            <div class="kc-inventory-image-frame">
+
+                <img src="~/images/stock-illustration.jpg"
+                     alt="Stock and inventory management"
+                     class="kc-inventory-image" />
+
+            </div>
+
+
+            <div class="kc-inventory-floating-card">
+
+                <span>
+                    Inventory Status
+                </span>
+
+                <strong>
+                    @totalUnits
+                </strong>
+
+                <small>
+                    total item(s) currently tracked
+                </small>
+
+            </div>
+
+        </div>
 
     </section>
+
+
+    <!-- ==================================================
+         SUCCESS MESSAGE
+         ================================================== -->
 
     @if (TempData["Success"] != null)
     {
         <div class="kc-alert-success">
-            @TempData["Success"]
+
+            ✓ @TempData["Success"]
+
         </div>
     }
 
-    @if (!Model.Any())
-    {
-        <div class="kc-empty kc-panel">
 
-            <span>📦</span>
+    <!-- ==================================================
+         INVENTORY SUMMARY
+         ================================================== -->
 
-            <h3>
-                Your stock list is empty
-            </h3>
+    <section class="kc-inventory-summary-grid">
+
+
+        <article class="kc-inventory-summary-card">
+
+            <div class="kc-inventory-summary-icon">
+                📦
+            </div>
+
+            <div>
+
+                <span>
+                    Product Types
+                </span>
+
+                <strong>
+                    @totalProducts
+                </strong>
+
+                <small>
+                    Different products tracked
+                </small>
+
+            </div>
+
+        </article>
+
+
+        <article class="kc-inventory-summary-card">
+
+            <div class="kc-inventory-summary-icon">
+                🧺
+            </div>
+
+            <div>
+
+                <span>
+                    Total Units
+                </span>
+
+                <strong>
+                    @totalUnits
+                </strong>
+
+                <small>
+                    Items available in stock
+                </small>
+
+            </div>
+
+        </article>
+
+
+        <article class="kc-inventory-summary-card">
+
+            <div class="kc-inventory-summary-icon">
+                ✓
+            </div>
+
+            <div>
+
+                <span>
+                    Healthy Stock
+                </span>
+
+                <strong>
+                    @healthyCount
+                </strong>
+
+                <small>
+                    Product(s) above alert level
+                </small>
+
+            </div>
+
+        </article>
+
+
+        <article class="
+            kc-inventory-summary-card
+            @(lowStockCount > 0
+                ? "kc-inventory-summary-warning"
+                : "")">
+
+            <div class="kc-inventory-summary-icon">
+                ⚠️
+            </div>
+
+            <div>
+
+                <span>
+                    Low Stock
+                </span>
+
+                <strong>
+                    @lowStockCount
+                </strong>
+
+                <small>
+                    Product(s) needing attention
+                </small>
+
+            </div>
+
+        </article>
+
+    </section>
+
+
+    <!-- ==================================================
+         PRODUCT LIST HEADER
+         ================================================== -->
+
+    <section class="kc-inventory-list-heading">
+
+        <div>
+
+            <span class="kc-eyebrow">
+                Your catalogue
+            </span>
+
+            <h2>
+                Products & Stock
+            </h2>
 
             <p>
-                Add your first product
-                to start processing sales.
+                Review prices, available quantities
+                and stock warning levels.
             </p>
+
+        </div>
+
+
+        @if (lowStockCount > 0)
+        {
+            <div class="kc-inventory-attention">
+
+                <span>
+                    ⚠
+                </span>
+
+                <div>
+
+                    <strong>
+                        @lowStockCount item(s)
+                        need attention
+                    </strong>
+
+                    <small>
+                        Review low stock products below.
+                    </small>
+
+                </div>
+
+            </div>
+        }
+
+    </section>
+
+
+    <!-- ==================================================
+         EMPTY INVENTORY
+         ================================================== -->
+
+    @if (!products.Any())
+    {
+        <section class="kc-inventory-empty">
+
+            <div class="kc-inventory-empty-icon">
+                📦
+            </div>
+
+            <span class="kc-eyebrow">
+                Start your catalogue
+            </span>
+
+            <h2>
+                Your inventory is empty.
+            </h2>
+
+            <p>
+                Add your first product so KasiCash
+                can begin tracking stock automatically
+                when you record sales.
+            </p>
+
 
             <a asp-action="Create"
                class="kc-primary-button">
-                Add Product
+
+                Add First Product
+
             </a>
 
-        </div>
+        </section>
     }
+
     else
     {
-        <div class="kc-product-grid">
+        <!-- ==================================================
+             PRODUCT GRID
+             ================================================== -->
 
-        @foreach (var product in Model)
-        {
-            var low =
-                product.QuantityInStock <=
-                product.LowStockLevel;
+        <section class="kc-product-grid">
 
-            <article class="kc-product-card">
+            @foreach (var product in products)
+            {
+                var low =
+                    product.QuantityInStock <=
+                    product.LowStockLevel;
 
-                <div class="kc-product-top">
+                var stockPercentage =
+                    product.LowStockLevel > 0
+                        ? Math.Min(
+                            100,
+                            (int)Math.Round(
+                                (double)product.QuantityInStock /
+                                (product.LowStockLevel * 2) *
+                                100))
+                        : 100;
 
-                    <div class="kc-product-icon">
-                        📦
+
+                <article class="
+                    kc-product-card
+                    @(low
+                        ? "kc-product-card-low"
+                        : "")">
+
+
+                    <div class="kc-product-top">
+
+                        <div class="kc-product-icon">
+                            📦
+                        </div>
+
+
+                        @if (low)
+                        {
+                            <span class="kc-status danger">
+
+                                Low Stock
+
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="kc-status success">
+
+                                Healthy
+
+                            </span>
+                        }
+
                     </div>
+
+
+                    <div class="kc-product-card-main">
+
+                        <span class="kc-product-label">
+                            Product
+                        </span>
+
+                        <h3>
+                            @product.Name
+                        </h3>
+
+                        <strong class="kc-product-price">
+
+                            R @product.SellingPrice
+                                .ToString("N2")
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="kc-product-metrics">
+
+                        <div>
+
+                            <span>
+                                Available
+                            </span>
+
+                            <strong>
+                                @product.QuantityInStock
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Alert Level
+                            </span>
+
+                            <strong>
+                                @product.LowStockLevel
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="kc-product-stock-progress">
+
+                        <div class="kc-product-stock-progress-top">
+
+                            <span>
+                                Stock health
+                            </span>
+
+                            <span>
+                                @(low
+                                    ? "Restock soon"
+                                    : "Looking good")
+                            </span>
+
+                        </div>
+
+
+                        <div class="kc-product-stock-bar">
+
+                            <span class="
+                                @(low
+                                    ? "kc-product-stock-bar-low"
+                                    : "")"
+                                  style="width:@stockPercentage%">
+                            </span>
+
+                        </div>
+
+                    </div>
+
 
                     @if (low)
                     {
-                        <span class="kc-status danger">
-                            Low Stock
-                        </span>
+                        <div class="kc-product-warning-note">
+
+                            <span>
+                                ⚠
+                            </span>
+
+                            <small>
+                                This product has reached
+                                or fallen below its
+                                warning level.
+                            </small>
+
+                        </div>
                     }
-                    else
-                    {
-                        <span class="kc-status success">
-                            Healthy
-                        </span>
-                    }
 
-                </div>
 
-                <h3>
-                    @product.Name
-                </h3>
+                    <div class="kc-product-actions">
 
-                <strong class="kc-product-price">
-                    R @product.SellingPrice
-                        .ToString("0.00")
-                </strong>
+                        <a asp-action="Edit"
+                           asp-route-id="@product.Id"
+                           class="kc-secondary-button">
 
-                <div class="kc-stock-row">
+                            Edit Product
 
-                    <span>
-                        Available
-                    </span>
+                        </a>
 
-                    <strong>
-                        @product.QuantityInStock
-                    </strong>
 
-                </div>
+                        <a asp-controller="Sales"
+                           asp-action="Create"
+                           class="kc-product-sale-link">
 
-                <div class="kc-stock-row">
+                            Sell Item →
 
-                    <span>
-                        Warning at
-                    </span>
+                        </a>
 
-                    <strong>
-                        @product.LowStockLevel
-                    </strong>
+                    </div>
 
-                </div>
+                </article>
+            }
 
-                <a asp-action="Edit"
-                   asp-route-id="@product.Id"
-                   class="kc-secondary-button w-100 text-center mt-3">
+        </section>
+    }
 
-                    Edit Product
 
-                </a>
+    <!-- ==================================================
+         INVENTORY VALUE STORY
+         ================================================== -->
 
-            </article>
-        }
+    <section class="kc-inventory-value-panel">
+
+        <div class="kc-inventory-value-icon">
+            💡
+        </div>
+
+        <div>
+
+            <span class="kc-eyebrow">
+                Why inventory matters
+            </span>
+
+            <h3>
+                Better stock records create
+                better business decisions.
+            </h3>
+
+            <p>
+                Consistent inventory records help the
+                entrepreneur understand product movement,
+                avoid unnecessary stock-outs and create
+                stronger evidence of how the business operates.
+            </p>
 
         </div>
-    }
+
+    </section>
 
 </div>

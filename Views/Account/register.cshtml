@@ -2,166 +2,509 @@
     ViewData["Title"] = "Create Account";
 }
 
-<section class="auth-page">
-    <div class="auth-card">
+<section class="kc-register-page">
 
-        <div class="auth-header">
-            <h1>Join KasiCash</h1>
-            <p>Start building your business financial identity today.</p>
+    <div class="kc-register-shell">
+
+
+        <!-- ==================================================
+             LEFT SIDE — ONBOARDING STORY
+             ================================================== -->
+
+        <div class="kc-register-side">
+
+            <div class="kc-register-side-inner">
+
+                <span class="kc-eyebrow">
+                    Start your digital journey
+                </span>
+
+                <h1>
+                    Turn your business
+                    activity into a
+                    financial story.
+                </h1>
+
+                <p>
+                    Create your KasiCash business profile
+                    and start recording sales, inventory
+                    and customer credit in one place.
+                </p>
+
+
+                <div class="kc-register-benefits">
+
+
+                    <div class="kc-register-benefit">
+
+                        <span class="kc-register-benefit-icon">
+                            🛒
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Record everyday sales
+                            </strong>
+
+                            <small>
+                                Capture cash and credit
+                                transactions digitally.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="kc-register-benefit">
+
+                        <span class="kc-register-benefit-icon">
+                            📦
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Track your stock
+                            </strong>
+
+                            <small>
+                                Know what is available
+                                and what needs restocking.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="kc-register-benefit">
+
+                        <span class="kc-register-benefit-icon">
+                            📈
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Build digital history
+                            </strong>
+
+                            <small>
+                                Every recorded activity
+                                strengthens your business record.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="kc-register-visual-card">
+
+                    <div class="kc-register-visual-top">
+
+                        <span>
+                            Business Profile
+                        </span>
+
+                        <span class="kc-register-active-badge">
+                            READY
+                        </span>
+
+                    </div>
+
+
+                    <div class="kc-register-visual-main">
+
+                        <div class="kc-register-profile-icon">
+                            K
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Your KasiCash Business
+                            </strong>
+
+                            <span>
+                                Digital profile setup
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="kc-register-progress">
+
+                        <div>
+                            <span>
+                                Profile
+                            </span>
+
+                            <strong>
+                                Step 1
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>
+                                Next
+                            </span>
+
+                            <strong>
+                                Add Stock
+                            </strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <form method="post">
-            @Html.AntiForgeryToken()
-            @if (ViewBag.Error != null)
-            {
-                <div class="alert alert-danger">
-                    @ViewBag.Error
+
+        <!-- ==================================================
+             RIGHT SIDE — REGISTRATION FORM
+             ================================================== -->
+
+        <div class="kc-register-form-wrap">
+
+            <div class="kc-register-form-card">
+
+                <div class="kc-register-form-header">
+
+                    <span class="kc-register-step">
+                        Business setup
+                    </span>
+
+                    <h2>
+                        Create your KasiCash account
+                    </h2>
+
+                    <p>
+                        Tell us about you and your business
+                        to create your secure digital profile.
+                    </p>
+
                 </div>
-            }
 
-            <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" name="FullName" placeholder="Enter your full name" required />
+
+                <form method="post"
+                      class="kc-register-form">
+
+                    @Html.AntiForgeryToken()
+
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="kc-alert-error">
+
+                            @ViewBag.Error
+
+                        </div>
+                    }
+
+
+                    <!-- Personal details -->
+
+                    <div class="kc-register-section">
+
+                        <div class="kc-register-section-title">
+
+                            <span>
+                                01
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    Personal details
+                                </strong>
+
+                                <small>
+                                    Information about the account owner
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="kc-field">
+
+                            <label for="FullName">
+                                Full Name
+                            </label>
+
+                            <input id="FullName"
+                                   type="text"
+                                   name="FullName"
+                                   placeholder="e.g. Thandi Mokoena"
+                                   autocomplete="name"
+                                   required />
+
+                        </div>
+
+
+                        <div class="kc-field">
+
+                            <label for="PhoneNumber">
+                                Phone Number
+                            </label>
+
+                            <input id="PhoneNumber"
+                                   type="tel"
+                                   name="PhoneNumber"
+                                   placeholder="e.g. 071 234 5678"
+                                   autocomplete="tel"
+                                   required />
+
+                        </div>
+
+
+                        <div class="kc-field">
+
+                            <label for="Email">
+                                Email Address
+                            </label>
+
+                            <input id="Email"
+                                   type="email"
+                                   name="Email"
+                                   placeholder="e.g. thandi@email.com"
+                                   autocomplete="email"
+                                   required />
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Business details -->
+
+                    <div class="kc-register-section">
+
+                        <div class="kc-register-section-title">
+
+                            <span>
+                                02
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    Business details
+                                </strong>
+
+                                <small>
+                                    Tell KasiCash about your business
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="kc-field">
+
+                            <label for="BusinessName">
+                                Business Name
+                            </label>
+
+                            <input id="BusinessName"
+                                   type="text"
+                                   name="BusinessName"
+                                   placeholder="e.g. Mama Thandi's Kota Spot"
+                                   required />
+
+                        </div>
+
+
+                        <div class="kc-field">
+
+                            <label for="BusinessType">
+                                Business Type
+                            </label>
+
+                            <select id="BusinessType"
+                                    name="BusinessType"
+                                    required>
+
+                                <option value="">
+                                    Select business type
+                                </option>
+
+                                <option>
+                                    Spaza Shop
+                                </option>
+
+                                <option>
+                                    Street Vendor
+                                </option>
+
+                                <option>
+                                    Food Business
+                                </option>
+
+                                <option>
+                                    Salon / Barber
+                                </option>
+
+                                <option>
+                                    Clothing Business
+                                </option>
+
+                                <option>
+                                    Mechanic
+                                </option>
+
+                                <option>
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Security -->
+
+                    <div class="kc-register-section">
+
+                        <div class="kc-register-section-title">
+
+                            <span>
+                                03
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    Secure your account
+                                </strong>
+
+                                <small>
+                                    Protect your business information
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="kc-two-fields">
+
+                            <div class="kc-field">
+
+                                <label for="Password">
+                                    Password
+                                </label>
+
+                                <input id="Password"
+                                       type="password"
+                                       name="Password"
+                                       placeholder="Create password"
+                                       autocomplete="new-password"
+                                       required />
+
+                            </div>
+
+
+                            <div class="kc-field">
+
+                                <label for="ConfirmPassword">
+                                    Confirm Password
+                                </label>
+
+                                <input id="ConfirmPassword"
+                                       type="password"
+                                       name="ConfirmPassword"
+                                       placeholder="Repeat password"
+                                       autocomplete="new-password"
+                                       required />
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="kc-password-requirements">
+
+                            <span>
+                                🔒
+                            </span>
+
+                            <p>
+                                Use at least 8 characters with
+                                uppercase, lowercase, a number
+                                and a special character.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <button type="submit"
+                            class="kc-register-submit">
+
+                        <span>
+                            Create My KasiCash Account
+                        </span>
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+
+                    <div class="kc-register-security-note">
+
+                        <span>
+                            🛡️
+                        </span>
+
+                        <p>
+                            Your account is protected using
+                            secure authentication and your
+                            business records remain linked
+                            to your profile.
+                        </p>
+
+                    </div>
+
+                </form>
+
+
+                <div class="kc-register-login">
+
+                    <span>
+                        Already have a KasiCash account?
+                    </span>
+
+                    <a asp-controller="Account"
+                       asp-action="Login">
+
+                        Sign in here
+
+                    </a>
+
+                </div>
+
             </div>
 
-            <div class="form-group">
-                <label>Business Name</label>
-                <input type="text" name="BusinessName" placeholder="e.g. Mama Thandi's Kota Spot" required />
-            </div>
-
-            <div class="form-group">
-                <label>Business Type</label>
-                <select name="BusinessType" required>
-                    <option value="">Select business type</option>
-                    <option>Spaza Shop</option>
-                    <option>Street Vendor</option>
-                    <option>Food Business</option>
-                    <option>Salon / Barber</option>
-                    <option>Clothing Business</option>
-                    <option>Mechanic</option>
-                    <option>Other</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Phone Number</label>
-                <input type="tel" name="PhoneNumber" placeholder="e.g. 071 234 5678" required />
-            </div>
-
-            <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" name="Email" placeholder="Enter your email" required />
-            </div>
-
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" name="Password" placeholder="Create a password" required />
-            </div>
-
-            <div class="form-group">
-                <label>Confirm Password</label>
-                <input type="password" name="ConfirmPassword" placeholder="Confirm your password" required />
-            </div>
-
-            <button type="submit" class="auth-button">
-                Create My KasiCash Account
-            </button>
-
-        </form>
-
-        <p class="auth-switch">
-            Already have an account?
-            <a asp-controller="Account" asp-action="Login">Login</a>
-        </p>
+        </div>
 
     </div>
+
 </section>
-<style>
-/* =========================
-KASICASH AUTH PAGES
-========================= */
-
-.auth-page {
-min-height: 85vh;
-display: flex;
-justify-content: center;
-align-items: center;
-padding: 50px 20px;
-background: #f5f6f7;
-}
-
-.auth-card {
-width: 100%;
-max-width: 520px;
-background: white;
-padding: 40px;
-border-radius: 20px;
-box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
-}
-
-.auth-header {
-text-align: center;
-margin-bottom: 30px;
-}
-
-.auth-header h1 {
-font-size: 2.2rem;
-font-weight: 800;
-margin-bottom: 8px;
-}
-
-.auth-header p {
-color: #666;
-}
-
-.form-group {
-margin-bottom: 18px;
-}
-
-.form-group label {
-display: block;
-margin-bottom: 7px;
-font-weight: 600;
-}
-
-.form-group input,
-.form-group select {
-width: 100%;
-padding: 13px 14px;
-border: 1px solid #d5d5d5;
-border-radius: 10px;
-outline: none;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-border-color: #27ae60;
-box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.12);
-}
-
-.auth-button {
-width: 100%;
-border: none;
-background: #27ae60;
-color: white;
-padding: 14px;
-border-radius: 10px;
-font-weight: 700;
-margin-top: 8px;
-}
-
-.auth-button:hover {
-background: #219150;
-}
-
-.auth-switch {
-text-align: center;
-margin-top: 22px;
-}
-
-.auth-switch a {
-color: #27ae60;
-font-weight: 700;
-text-decoration: none;
-}
-</style>

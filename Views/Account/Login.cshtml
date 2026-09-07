@@ -2,108 +2,287 @@
     ViewData["Title"] = "Login";
 }
 
-<div class="kc-auth-page">
+<section class="kc-login-page">
 
-    <div class="kc-auth-side">
+    <div class="kc-login-shell">
 
-        <div class="kc-logo-large">
-            K
+
+        <!-- ==================================================
+             LEFT SIDE
+             ================================================== -->
+
+        <div class="kc-login-side">
+
+            <div class="kc-login-side-inner">
+
+                <div class="kc-logo-large">
+                    K
+                </div>
+
+                <span class="kc-eyebrow">
+                    Welcome back
+                </span>
+
+                <h1>
+                    Keep your business
+                    moving with confidence.
+                </h1>
+
+                <p>
+                    Sign in to continue recording sales,
+                    managing inventory, tracking customer
+                    credit and growing your digital
+                    business history.
+                </p>
+
+
+                <div class="kc-login-feature-list">
+
+                    <div class="kc-login-feature">
+
+                        <span>
+                            💰
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Sales at a glance
+                            </strong>
+
+                            <small>
+                                See what your business
+                                is recording today.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="kc-login-feature">
+
+                        <span>
+                            📦
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Smarter stock control
+                            </strong>
+
+                            <small>
+                                Monitor inventory and
+                                catch low stock early.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="kc-login-feature">
+
+                        <span>
+                            📈
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Growing digital footprint
+                            </strong>
+
+                            <small>
+                                Every activity strengthens
+                                your business record.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="kc-login-preview">
+
+                    <div class="kc-login-preview-top">
+
+                        <span>
+                            KasiCash Business
+                        </span>
+
+                        <span class="kc-login-online-badge">
+                            ONLINE
+                        </span>
+
+                    </div>
+
+
+                    <div class="kc-login-preview-body">
+
+                        <div>
+
+                            <span>
+                                Today's activity
+                            </span>
+
+                            <strong>
+                                Ready to continue
+                            </strong>
+
+                        </div>
+
+                        <div class="kc-login-preview-status">
+                            ✓
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <span class="kc-eyebrow">
-            Welcome back
-        </span>
 
-        <h1>
-            Your business keeps moving.
-            KasiCash keeps the record.
-        </h1>
+        <!-- ==================================================
+             LOGIN FORM
+             ================================================== -->
 
-        <p>
-            Sign in to continue recording
-            sales, managing stock and
-            tracking customer credit.
-        </p>
+        <div class="kc-login-form-wrap">
+
+            <div class="kc-login-card">
+
+                <div class="kc-login-card-header">
+
+                    <span class="kc-login-label">
+                        Secure access
+                    </span>
+
+                    <h2>
+                        Sign in to KasiCash
+                    </h2>
+
+                    <p>
+                        Access your business dashboard
+                        and continue where you left off.
+                    </p>
+
+                </div>
+
+
+                @if (TempData["Success"] != null)
+                {
+                    <div class="kc-alert-success">
+
+                        ✓ @TempData["Success"]
+
+                    </div>
+                }
+
+
+                @if (ViewBag.Error != null)
+                {
+                    <div class="kc-alert-error">
+
+                        @ViewBag.Error
+
+                    </div>
+                }
+
+
+                <form asp-controller="Account"
+                      asp-action="Login"
+                      method="post"
+                      class="kc-login-form">
+
+                    @Html.AntiForgeryToken()
+
+
+                    <div class="kc-field">
+
+                        <label for="Email">
+                            Email Address
+                        </label>
+
+                        <input id="Email"
+                               type="email"
+                               name="email"
+                               autocomplete="email"
+                               placeholder="you@example.com"
+                               required />
+
+                    </div>
+
+
+                    <div class="kc-field">
+
+                        <label for="Password">
+                            Password
+                        </label>
+
+                        <input id="Password"
+                               type="password"
+                               name="password"
+                               autocomplete="current-password"
+                               placeholder="Enter your password"
+                               required />
+
+                    </div>
+
+
+                    <button type="submit"
+                            class="kc-login-submit">
+
+                        <span>
+                            Sign In
+                        </span>
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+                </form>
+
+
+                <div class="kc-login-security">
+
+                    <span>
+                        🛡️
+                    </span>
+
+                    <p>
+                        Secure authentication helps protect
+                        your business profile and records.
+                    </p>
+
+                </div>
+
+
+                <div class="kc-login-register">
+
+                    <span>
+                        New to KasiCash?
+                    </span>
+
+                    <a asp-controller="Account"
+                       asp-action="Register">
+
+                        Create a business account
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
-    <div class="kc-form-card">
-
-        <h2>
-            Sign in
-        </h2>
-
-        <p>
-            Access your KasiCash business account.
-        </p>
-
-
-        @if (TempData["Success"] != null)
-        {
-            <div class="kc-alert-success">
-                @TempData["Success"]
-            </div>
-        }
-
-        @if (ViewBag.Error != null)
-        {
-            <div class="kc-alert-error">
-                @ViewBag.Error
-            </div>
-        }
-
-        <form asp-controller="Account"
-              asp-action="Login"
-              method="post">
-
-            @Html.AntiForgeryToken()
-
-            <div class="kc-field">
-
-                <label>
-                    Email Address
-                </label>
-
-                <input type="email"
-                       name="email"
-                       required
-                       placeholder="you@example.com" />
-
-            </div>
-
-            <div class="kc-field">
-
-                <label>
-                    Password
-                </label>
-
-                <input type="password"
-                       name="password"
-                       required
-                       placeholder="Enter password" />
-
-            </div>
-
-            <button type="submit"
-                    class="kc-primary-button w-100">
-
-                Sign In
-
-            </button>
-
-        </form>
-
-        <div class="kc-auth-bottom">
-
-            Don't have an account?
-
-            <a asp-controller="Account"
-               asp-action="Register">
-                Create one
-            </a>
-
-        </div>
-
-    </div>
-
-</div>
+</section>

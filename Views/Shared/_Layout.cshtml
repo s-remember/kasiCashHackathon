@@ -1,11 +1,24 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var currentController =
+        ViewContext.RouteData.Values["controller"]?.ToString();
+
+    var currentAction =
+        ViewContext.RouteData.Values["action"]?.ToString();
+}
+
+<!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="utf-8" />
 
     <meta name="viewport"
-          content="width=device-width,
-                   initial-scale=1.0" />
+          content="width=device-width, initial-scale=1.0" />
+
+    <meta name="description"
+          content="KasiCash helps informal and micro-businesses digitise sales, stock and customer credit while progressively building a digital financial history." />
 
     <title>
         @ViewData["Title"] - KasiCash
@@ -17,125 +30,258 @@
     <link rel="stylesheet"
           href="~/css/site.css"
           asp-append-version="true" />
+
 </head>
 
 <body>
 
-<header class="kc-nav">
+    <!-- ==================================================
+         NAVIGATION
+         ================================================== -->
 
-    <div class="kc-nav-inner">
+    <header class="kc-nav">
 
-        <a class="kc-brand"
-           asp-controller="Home"
-           asp-action="Index">
+        <div class="kc-nav-inner">
 
-            <span class="kc-logo">K</span>
+            <!-- Brand -->
+            <a class="kc-brand"
+               asp-controller="Home"
+               asp-action="Index"
+               aria-label="KasiCash home">
 
-            <span>
-                KasiCash
+                <span class="kc-logo"
+                      aria-hidden="true">
+                    K
+                </span>
+
+                <span class="kc-brand-text">
+
+                    <strong>
+                        KasiCash
+                    </strong>
+
+                    <small>
+                        From cash to digital
+                    </small>
+
+                </span>
+
+            </a>
+
+
+            <!-- Navigation -->
+            <nav class="kc-links"
+                 aria-label="Main navigation">
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a asp-controller="Dashboard"
+                       asp-action="Index"
+                       class="@(currentController == "Dashboard"
+                           ? "kc-active-link"
+                           : "")">
+
+                        Dashboard
+
+                    </a>
+
+
+                    <a asp-controller="Sales"
+                       asp-action="Create"
+                       class="@(currentController == "Sales"
+                           ? "kc-active-link"
+                           : "")">
+
+                        Sales
+
+                    </a>
+
+
+                    <a asp-controller="Products"
+                       asp-action="Index"
+                       class="@(currentController == "Products"
+                           ? "kc-active-link"
+                           : "")">
+
+                        Inventory
+
+                    </a>
+
+
+                    <a asp-controller="CreditSales"
+                       asp-action="Index"
+                       class="@(currentController == "CreditSales"
+                           ? "kc-active-link"
+                           : "")">
+
+                        Customer Credit
+
+                    </a>
+
+
+                    <form asp-controller="Account"
+                          asp-action="Logout"
+                          method="post"
+                          class="kc-logout-form">
+
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit"
+                                class="kc-outline-button">
+
+                            Logout
+
+                        </button>
+
+                    </form>
+                }
+
+                else
+                {
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       class="@(
+                           currentController == "Home" &&
+                           currentAction == "Index"
+                               ? "kc-active-link"
+                               : "")">
+
+                        Home
+
+                    </a>
+
+
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       asp-fragment="features">
+
+                        Features
+
+                    </a>
+
+
+                    <a asp-controller="Account"
+                       asp-action="Login"
+                       class="@(
+                           currentController == "Account" &&
+                           currentAction == "Login"
+                               ? "kc-active-link"
+                               : "")">
+
+                        Login
+
+                    </a>
+
+
+                    <a asp-controller="Account"
+                       asp-action="Register"
+                       class="kc-nav-cta">
+
+                        Get Started
+
+                    </a>
+                }
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- ==================================================
+         MAIN CONTENT
+         ================================================== -->
+
+    <main class="kc-main">
+
+        @RenderBody()
+
+    </main>
+
+
+    <!-- ==================================================
+         FOOTER
+         ================================================== -->
+
+    <footer class="kc-footer">
+
+        <div class="kc-footer-inner">
+
+            <div class="kc-footer-brand">
+
+                <strong>
+                    KasiCash
+                </strong>
+
+                <span>
+                    Turning everyday transactions into
+                    meaningful digital business records.
+                </span>
+
+            </div>
+
+
+            <div class="kc-footer-story">
+
+                <span>
+                    Sales
+                </span>
+
+                <span class="kc-footer-dot">
+                    •
+                </span>
+
+                <span>
+                    Stock
+                </span>
+
+                <span class="kc-footer-dot">
+                    •
+                </span>
+
+                <span>
+                    Credit
+                </span>
+
+                <span class="kc-footer-dot">
+                    •
+                </span>
+
+                <span>
+                    Financial History
+                </span>
+
+            </div>
+
+
+            <span class="kc-footer-copy">
+
+                © @DateTime.Now.Year KasiCash
+
             </span>
 
-        </a>
+        </div>
 
-        <nav class="kc-links">
+    </footer>
 
-        @if (User.Identity?.IsAuthenticated == true)
-        {
-            <a asp-controller="Dashboard"
-               asp-action="Index">
-                Dashboard
-            </a>
 
-            <a asp-controller="Sales"
-               asp-action="Create">
-                Process Sale
-            </a>
+    <!-- ==================================================
+         SCRIPTS
+         ================================================== -->
 
-            <a asp-controller="Products"
-               asp-action="Index">
-                Stock
-            </a>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-            <a asp-controller="CreditSales"
-               asp-action="Index">
-                Credit
-            </a>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-            <form asp-controller="Account"
-                  asp-action="Logout"
-                  method="post">
+    <script src="~/js/site.js"
+            asp-append-version="true">
+    </script>
 
-                @Html.AntiForgeryToken()
-
-                <button type="submit"
-                        class="kc-outline-button">
-                    Logout
-                </button>
-
-            </form>
-        }
-        else
-        {
-            <a asp-controller="Home"
-               asp-action="Index">
-                Home
-            </a>
-
-            <a asp-controller="Home"
-               asp-action="Index"
-               asp-fragment="features">
-                Features
-            </a>
-
-            <a asp-controller="Account"
-               asp-action="Login">
-                Login
-            </a>
-
-            <a asp-controller="Account"
-               asp-action="Register"
-               class="kc-nav-cta">
-                Get Started
-            </a>
-        }
-
-        </nav>
-
-    </div>
-
-</header>
-
-<main class="kc-main">
-    @RenderBody()
-</main>
-
-<footer class="kc-footer">
-
-    <div>
-        <strong>KasiCash</strong>
-        <span>
-            Your business. Your records.
-            Your financial future.
-        </span>
-    </div>
-
-    <span>
-        © 2026 KasiCash
-    </span>
-
-</footer>
-
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-<script src="~/js/site.js"
-        asp-append-version="true">
-</script>
-
-@await RenderSectionAsync(
-    "Scripts",
-    required: false)
+    @await RenderSectionAsync(
+        "Scripts",
+        required: false)
 
 </body>
+
 </html>

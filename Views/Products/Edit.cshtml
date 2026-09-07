@@ -2,85 +2,499 @@
 
 @{
     ViewData["Title"] = "Edit Product";
+
+    var lowStock =
+        Model.QuantityInStock <=
+        Model.LowStockLevel;
 }
 
-<div class="kc-auth-page">
+<div class="kc-page">
 
-    <div class="kc-form-card">
 
-        <span class="kc-eyebrow">
-            Inventory
-        </span>
+    <!-- ==================================================
+         EDIT PRODUCT HERO
+         ================================================== -->
 
-        <h1>
-            Edit Product
-        </h1>
+    <section class="kc-inventory-hero">
 
-        <form asp-action="Edit"
-              asp-route-id="@Model.Id"
-              method="post">
+        <div class="kc-inventory-hero-copy">
 
-            @Html.AntiForgeryToken()
+            <span class="kc-eyebrow">
+                Inventory management
+            </span>
 
-            <div class="kc-field">
+            <h1>
+                Keep your product
+                information accurate.
+            </h1>
 
-                <label asp-for="Name">
-                    Product Name
-                </label>
+            <p>
+                Update the selling price, available
+                quantity or warning level for
+                <strong>@Model.Name</strong>.
+                Accurate stock information helps
+                KasiCash keep future sales and
+                inventory records reliable.
+            </p>
 
-                <input asp-for="Name" />
 
-            </div>
+            <div class="kc-inventory-hero-actions">
 
-            <div class="kc-field">
+                <a asp-action="Index"
+                   class="kc-secondary-button">
 
-                <label asp-for="SellingPrice">
-                    Selling Price
-                </label>
+                    ← Back to Inventory
 
-                <input asp-for="SellingPrice"
-                       type="number"
-                       min="0.01"
-                       step="0.01" />
-
-            </div>
-
-            <div class="kc-field">
-
-                <label asp-for="QuantityInStock">
-                    Quantity In Stock
-                </label>
-
-                <input asp-for="QuantityInStock"
-                       type="number"
-                       min="0" />
+                </a>
 
             </div>
 
-            <div class="kc-field">
+        </div>
 
-                <label asp-for="LowStockLevel">
-                    Low Stock Warning
-                </label>
 
-                <input asp-for="LowStockLevel"
-                       type="number"
-                       min="0" />
+        <!-- Product snapshot -->
+
+        <div class="kc-inventory-hero-visual">
+
+            <div class="kc-inventory-image-frame">
+
+                <img src="~/images/stock-illustration.jpg"
+                     alt="Inventory management"
+                     class="kc-inventory-image" />
 
             </div>
 
-            <button type="submit"
-                    class="kc-primary-button w-100">
-                Save Changes
-            </button>
 
-            <a asp-action="Index"
-               class="kc-text-link">
-                Cancel
-            </a>
+            <div class="kc-inventory-floating-card">
 
-        </form>
+                <span>
+                    Current Stock
+                </span>
+
+                <strong>
+                    @Model.QuantityInStock
+                </strong>
+
+                <small>
+                    @(lowStock
+                        ? "Stock currently needs attention."
+                        : "Stock level currently looks healthy.")
+                </small>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         EDIT FORM + CURRENT PRODUCT INFORMATION
+         ================================================== -->
+
+    <div class="kc-dashboard-grid">
+
+
+        <!-- Edit form -->
+
+        <section class="kc-panel">
+
+            <div class="kc-panel-title">
+
+                <div>
+
+                    <span class="kc-eyebrow">
+                        Product settings
+                    </span>
+
+                    <h2>
+                        Edit Product
+                    </h2>
+
+                    <p>
+                        Changes made here will be used
+                        for future sales and stock tracking.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form asp-action="Edit"
+                  asp-route-id="@Model.Id"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+
+                <div asp-validation-summary="ModelOnly"
+                     class="kc-alert-error">
+                </div>
+
+
+                <!-- Product identity -->
+
+                <div class="kc-register-section">
+
+                    <div class="kc-register-section-title">
+
+                        <span>
+                            01
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Product information
+                            </strong>
+
+                            <small>
+                                Update the product name
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="kc-field">
+
+                        <label asp-for="Name">
+                            Product Name
+                        </label>
+
+                        <input asp-for="Name"
+                               autocomplete="off"
+                               placeholder="e.g. White Bread" />
+
+                        <span asp-validation-for="Name"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Price -->
+
+                <div class="kc-register-section">
+
+                    <div class="kc-register-section-title">
+
+                        <span>
+                            02
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Selling price
+                            </strong>
+
+                            <small>
+                                Price used for future sales
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="kc-field">
+
+                        <label asp-for="SellingPrice">
+                            Selling Price (R)
+                        </label>
+
+                        <input asp-for="SellingPrice"
+                               type="number"
+                               min="0.01"
+                               step="0.01" />
+
+                        <span asp-validation-for="SellingPrice"
+                              class="text-danger">
+                        </span>
+
+                        <small>
+                            Changing this price affects
+                            future transactions only.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Inventory settings -->
+
+                <div class="kc-register-section">
+
+                    <div class="kc-register-section-title">
+
+                        <span>
+                            03
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Inventory settings
+                            </strong>
+
+                            <small>
+                                Keep quantities and alerts accurate
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="kc-two-fields">
+
+
+                        <div class="kc-field">
+
+                            <label asp-for="QuantityInStock">
+                                Quantity In Stock
+                            </label>
+
+                            <input asp-for="QuantityInStock"
+                                   type="number"
+                                   min="0" />
+
+                            <span asp-validation-for="QuantityInStock"
+                                  class="text-danger">
+                            </span>
+
+                            <small>
+                                Number of units currently available.
+                            </small>
+
+                        </div>
+
+
+                        <div class="kc-field">
+
+                            <label asp-for="LowStockLevel">
+                                Low Stock Warning
+                            </label>
+
+                            <input asp-for="LowStockLevel"
+                                   type="number"
+                                   min="0" />
+
+                            <span asp-validation-for="LowStockLevel"
+                                  class="text-danger">
+                            </span>
+
+                            <small>
+                                KasiCash alerts you when
+                                stock reaches this amount.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Update note -->
+
+                <div class="kc-password-requirements">
+
+                    <span>
+                        💡
+                    </span>
+
+                    <p>
+                        Keep stock quantities accurate so
+                        future sales reduce inventory from
+                        the correct starting amount.
+                    </p>
+
+                </div>
+
+
+                <div style="
+                    display:flex;
+                    gap:12px;
+                    flex-wrap:wrap;
+                    margin-top:24px;">
+
+                    <button type="submit"
+                            class="kc-primary-button">
+
+                        Save Changes
+
+                    </button>
+
+
+                    <a asp-action="Index"
+                       class="kc-secondary-button">
+
+                        Cancel
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- ==================================================
+             PRODUCT SNAPSHOT
+             ================================================== -->
+
+        <aside class="kc-panel">
+
+            <div class="kc-panel-title">
+
+                <div>
+
+                    <span class="kc-eyebrow">
+                        Current record
+                    </span>
+
+                    <h2>
+                        Product Snapshot
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="kc-product-card
+                        @(lowStock
+                            ? "kc-product-card-low"
+                            : "")">
+
+
+                <div class="kc-product-top">
+
+                    <div class="kc-product-icon">
+                        📦
+                    </div>
+
+
+                    @if (lowStock)
+                    {
+                        <span class="kc-status danger">
+                            Low Stock
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="kc-status success">
+                            Healthy
+                        </span>
+                    }
+
+                </div>
+
+
+                <div class="kc-product-card-main">
+
+                    <span class="kc-product-label">
+                        Product
+                    </span>
+
+                    <h3>
+                        @Model.Name
+                    </h3>
+
+                    <strong class="kc-product-price">
+
+                        R @Model.SellingPrice
+                            .ToString("N2")
+
+                    </strong>
+
+                </div>
+
+
+                <div class="kc-product-metrics">
+
+                    <div>
+
+                        <span>
+                            Available
+                        </span>
+
+                        <strong>
+                            @Model.QuantityInStock
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Alert Level
+                        </span>
+
+                        <strong>
+                            @Model.LowStockLevel
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                @if (lowStock)
+                {
+                    <div class="kc-product-warning-note">
+
+                        <span>
+                            ⚠
+                        </span>
+
+                        <small>
+                            Current stock has reached
+                            or fallen below the warning level.
+                        </small>
+
+                    </div>
+                }
+
+            </div>
+
+
+            <div class="kc-insight">
+
+                <strong>
+                    Why accurate stock matters
+                </strong>
+
+                <span>
+                    KasiCash reduces stock automatically
+                    when sales are processed, so keeping
+                    this quantity correct improves the
+                    accuracy of your business records.
+                </span>
+
+            </div>
+
+        </aside>
 
     </div>
 
 </div>
+
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial");
+    }
+
+}

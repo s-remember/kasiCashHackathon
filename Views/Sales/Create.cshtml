@@ -2,321 +2,761 @@
 
 @{
     ViewData["Title"] = "Process Sale";
+
+    var products = Model.ToList();
+
+    var totalProducts = products.Count;
+
+    var totalUnits =
+        products.Sum(p => p.QuantityInStock);
+
+    var lowStockCount =
+        products.Count(p =>
+            p.QuantityInStock <=
+            p.LowStockLevel);
 }
 
 <div class="kc-page">
 
-    <section class="kc-page-header">
 
-        <div>
+    <!-- ==================================================
+         POS HERO
+         ================================================== -->
+
+    <section class="kc-inventory-hero">
+
+        <div class="kc-inventory-hero-copy">
 
             <span class="kc-eyebrow">
                 Point of Sale
             </span>
 
             <h1>
-                Process Sale
+                Record a sale
+                in just a few clicks.
             </h1>
 
             <p>
-                Select the product,
-                quantity and payment type.
+                Choose a product, select the quantity
+                and payment method, then confirm.
+                KasiCash records the transaction and
+                automatically updates stock.
             </p>
+
+
+            <div class="kc-inventory-hero-actions">
+
+                <a asp-controller="Products"
+                   asp-action="Create"
+                   class="kc-secondary-button">
+
+                    + Add Product
+
+                </a>
+
+                <a asp-controller="Dashboard"
+                   asp-action="Index"
+                   class="kc-secondary-button">
+
+                    View Dashboard
+
+                </a>
+
+            </div>
 
         </div>
 
-        <a asp-controller="Products"
-           asp-action="Create"
-           class="kc-secondary-button">
 
-            + Add Product
+        <!-- Sales illustration -->
 
-        </a>
+        <div class="kc-inventory-hero-visual">
+
+            <div class="kc-inventory-image-frame">
+
+                <img src="~/images/sales-illustration.jpg"
+                     alt="Recording business sales"
+                     class="kc-inventory-image" />
+
+            </div>
+
+
+            <div class="kc-inventory-floating-card">
+
+                <span>
+                    POS Ready
+                </span>
+
+                <strong>
+                    @totalProducts
+                </strong>
+
+                <small>
+                    product(s) available
+                    for sale
+                </small>
+
+            </div>
+
+        </div>
 
     </section>
+
+
+    <!-- ==================================================
+         MESSAGES
+         ================================================== -->
 
     @if (TempData["Success"] != null)
     {
         <div class="kc-alert-success">
-            @TempData["Success"]
+
+            ✓ @TempData["Success"]
+
         </div>
     }
 
     @if (TempData["Error"] != null)
     {
         <div class="kc-alert-error">
+
             @TempData["Error"]
+
         </div>
     }
 
-    @if (!Model.Any())
-    {
-        <div class="kc-panel kc-empty">
 
-            <span>🛒</span>
+    <!-- ==================================================
+         POS SUMMARY
+         ================================================== -->
 
-            <h3>
-                Nothing to sell yet
-            </h3>
+    <section class="kc-inventory-summary-grid">
+
+        <article class="kc-inventory-summary-card">
+
+            <div class="kc-inventory-summary-icon">
+                🛍️
+            </div>
+
+            <div>
+
+                <span>
+                    Products Ready
+                </span>
+
+                <strong>
+                    @totalProducts
+                </strong>
+
+                <small>
+                    Available for selling
+                </small>
+
+            </div>
+
+        </article>
+
+
+        <article class="kc-inventory-summary-card">
+
+            <div class="kc-inventory-summary-icon">
+                📦
+            </div>
+
+            <div>
+
+                <span>
+                    Stock Units
+                </span>
+
+                <strong>
+                    @totalUnits
+                </strong>
+
+                <small>
+                    Total units available
+                </small>
+
+            </div>
+
+        </article>
+
+
+        <article class="kc-inventory-summary-card
+                        @(lowStockCount > 0
+                            ? "kc-inventory-summary-warning"
+                            : "")">
+
+            <div class="kc-inventory-summary-icon">
+                ⚠️
+            </div>
+
+            <div>
+
+                <span>
+                    Low Stock
+                </span>
+
+                <strong>
+                    @lowStockCount
+                </strong>
+
+                <small>
+                    Product(s) need attention
+                </small>
+
+            </div>
+
+        </article>
+
+
+        <article class="kc-inventory-summary-card">
+
+            <div class="kc-inventory-summary-icon">
+                💳
+            </div>
+
+            <div>
+
+                <span>
+                    Payment Options
+                </span>
+
+                <strong>
+                    2
+                </strong>
+
+                <small>
+                    Cash or customer credit
+                </small>
+
+            </div>
+
+        </article>
+
+    </section>
+
+
+    <!-- ==================================================
+         PRODUCTS HEADING
+         ================================================== -->
+
+    <section class="kc-inventory-list-heading">
+
+        <div>
+
+            <span class="kc-eyebrow">
+                Product catalogue
+            </span>
+
+            <h2>
+                Select an item to sell
+            </h2>
 
             <p>
-                Add products and stock first.
+                Enter the quantity and payment type
+                directly from the product card.
+            </p>
+
+        </div>
+
+
+        <div class="kc-dashboard-status-row">
+
+            <span class="kc-status-dot"></span>
+
+            <span>
+                Stock updates automatically
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         EMPTY STATE
+         ================================================== -->
+
+    @if (!products.Any())
+    {
+        <section class="kc-inventory-empty">
+
+            <div class="kc-inventory-empty-icon">
+                🛒
+            </div>
+
+            <span class="kc-eyebrow">
+                No products available
+            </span>
+
+            <h2>
+                Nothing to sell yet.
+            </h2>
+
+            <p>
+                Add a product and its available stock
+                before processing your first transaction.
             </p>
 
             <a asp-controller="Products"
                asp-action="Create"
                class="kc-primary-button">
-                Add Product
+
+                Add First Product
+
             </a>
 
-        </div>
+        </section>
     }
+
     else
     {
-        <div class="kc-sale-grid">
+        <!-- ==================================================
+             SALES CARDS
+             ================================================== -->
 
-        @foreach (var product in Model)
-        {
-            <article class="kc-sale-card">
+        <section class="kc-sale-grid">
 
-                <div class="kc-product-top">
+            @foreach (var product in products)
+            {
+                var lowStock =
+                    product.QuantityInStock <=
+                    product.LowStockLevel;
 
-                    <div class="kc-product-icon">
-                        🛍️
-                    </div>
+                <article class="
+                    kc-sale-card
+                    @(lowStock
+                        ? "kc-product-card-low"
+                        : "")">
 
-                    <span class="kc-stock-pill">
-                        @product.QuantityInStock left
-                    </span>
 
-                </div>
+                    <!-- Product header -->
 
-                <h2>
-                    @product.Name
-                </h2>
+                    <div class="kc-product-top">
 
-                <div class="kc-product-price">
-                    R @product.SellingPrice
-                        .ToString("0.00")
-                </div>
+                        <div class="kc-product-icon">
+                            🛍️
+                        </div>
 
-                @if (product.QuantityInStock <=
-                     product.LowStockLevel)
-                {
-                    <div class="kc-mini-warning">
-                        ⚠ Running low
-                    </div>
-                }
 
-                <form asp-action="CompleteSale"
-                      method="post"
-                      class="kc-sale-form">
-
-                    @Html.AntiForgeryToken()
-
-                    <input type="hidden"
-                           name="productId"
-                           value="@product.Id" />
-
-                    <input type="hidden"
-                           class="product-price"
-                           value="@product.SellingPrice" />
-
-                    <div class="kc-field">
-
-                        <label>
-                            Quantity
-                        </label>
-
-                        <input type="number"
-                               name="quantity"
-                               value="1"
-                               min="1"
-                               max="@product.QuantityInStock"
-                               class="quantity-input"
-                               required />
+                        @if (lowStock)
+                        {
+                            <span class="kc-status danger">
+                                Low Stock
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="kc-status success">
+                                In Stock
+                            </span>
+                        }
 
                     </div>
 
-                    <div class="kc-total-box">
 
-                        <span>
-                            Total
+                    <div class="kc-product-card-main">
+
+                        <span class="kc-product-label">
+                            Product
                         </span>
 
-                        <strong class="estimated-total">
+                        <h2>
+                            @product.Name
+                        </h2>
+
+                        <div class="kc-product-price">
+
                             R @product.SellingPrice
-                                .ToString("0.00")
-                        </strong>
-
-                    </div>
-
-                    <div class="kc-field">
-
-                        <label>
-                            Payment Method
-                        </label>
-
-                        <select name="paymentType"
-                                class="payment-type"
-                                required>
-
-                            <option value="Cash">
-                                Cash
-                            </option>
-
-                            <option value="Credit">
-                                Credit
-                            </option>
-
-                        </select>
-
-                    </div>
-
-                    <div class="credit-fields d-none">
-
-                        <div class="kc-credit-box">
-
-                            <h4>
-                                Customer Credit Details
-                            </h4>
-
-                            <div class="kc-field">
-
-                                <label>
-                                    Customer Name
-                                </label>
-
-                                <input type="text"
-                                       name="customerName"
-                                       maxlength="100"
-                                       class="customer-name"
-                                       placeholder="Customer name" />
-
-                            </div>
-
-                            <div class="kc-field">
-
-                                <label>
-                                    Phone Number
-                                </label>
-
-                                <input type="text"
-                                       name="customerPhone"
-                                       maxlength="20"
-                                       placeholder="Optional" />
-
-                            </div>
-
-                            <div class="kc-field">
-
-                                <label>
-                                    Due Date
-                                </label>
-
-                                <input type="date"
-                                       name="dueDate" />
-
-                            </div>
+                                .ToString("N2")
 
                         </div>
 
                     </div>
 
-                    <button type="submit"
-                            class="kc-primary-button w-100">
 
-                        Confirm Sale
+                    <div class="kc-product-metrics">
 
-                    </button>
+                        <div>
 
-                </form>
+                            <span>
+                                Available
+                            </span>
 
-            </article>
-        }
+                            <strong>
+                                @product.QuantityInStock
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Low Stock Alert
+                            </span>
+
+                            <strong>
+                                @product.LowStockLevel
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    @if (lowStock)
+                    {
+                        <div class="kc-product-warning-note">
+
+                            <span>
+                                ⚠
+                            </span>
+
+                            <small>
+                                Stock is already at or
+                                below the warning level.
+                            </small>
+
+                        </div>
+                    }
+
+
+                    <!-- ==================================================
+                         SALE FORM
+                         ================================================== -->
+
+                    <form asp-action="CompleteSale"
+                          method="post"
+                          class="kc-sale-form">
+
+                        @Html.AntiForgeryToken()
+
+
+                        <input type="hidden"
+                               name="productId"
+                               value="@product.Id" />
+
+
+                        <input type="hidden"
+                               class="product-price"
+                               value="@product.SellingPrice" />
+
+
+                        <!-- Quantity -->
+
+                        <div class="kc-register-section">
+
+                            <div class="kc-field">
+
+                                <label>
+                                    Quantity
+                                </label>
+
+                                <input type="number"
+                                       name="quantity"
+                                       value="1"
+                                       min="1"
+                                       max="@product.QuantityInStock"
+                                       class="quantity-input"
+                                       required />
+
+                                <small>
+                                    Maximum available:
+                                    @product.QuantityInStock
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Total -->
+
+                        <div class="kc-total-box">
+
+                            <span>
+                                Sale Total
+                            </span>
+
+                            <strong class="estimated-total">
+
+                                R @product.SellingPrice
+                                    .ToString("N2")
+
+                            </strong>
+
+                        </div>
+
+
+                        <!-- Payment -->
+
+                        <div class="kc-register-section">
+
+                            <div class="kc-field">
+
+                                <label>
+                                    Payment Method
+                                </label>
+
+                                <select name="paymentType"
+                                        class="payment-type"
+                                        required>
+
+                                    <option value="Cash">
+                                        Cash
+                                    </option>
+
+                                    <option value="Credit">
+                                        Customer Credit
+                                    </option>
+
+                                </select>
+
+                                <small>
+                                    Credit sales will automatically
+                                    create a customer debt record.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ==================================================
+                             CREDIT DETAILS
+                             ================================================== -->
+
+                        <div class="credit-fields d-none">
+
+                            <div class="kc-credit-box">
+
+                                <span class="kc-eyebrow">
+                                    Credit transaction
+                                </span>
+
+                                <h4>
+                                    Customer Details
+                                </h4>
+
+                                <p>
+                                    Record who owes the business
+                                    and when payment is expected.
+                                </p>
+
+
+                                <div class="kc-field">
+
+                                    <label>
+                                        Customer Name
+                                    </label>
+
+                                    <input type="text"
+                                           name="customerName"
+                                           maxlength="100"
+                                           class="customer-name"
+                                           placeholder="e.g. Thabo Molefe" />
+
+                                </div>
+
+
+                                <div class="kc-field">
+
+                                    <label>
+                                        Phone Number
+                                    </label>
+
+                                    <input type="tel"
+                                           name="customerPhone"
+                                           maxlength="20"
+                                           placeholder="e.g. 071 234 5678" />
+
+                                    <small>
+                                        Optional contact information.
+                                    </small>
+
+                                </div>
+
+
+                                <div class="kc-field">
+
+                                    <label>
+                                        Due Date
+                                    </label>
+
+                                    <input type="date"
+                                           name="dueDate" />
+
+                                    <small>
+                                        If left empty, KasiCash
+                                        uses the default due date.
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Confirmation -->
+
+                        <button type="submit"
+                                class="kc-primary-button w-100">
+
+                            Confirm Sale →
+
+                        </button>
+
+
+                        <div class="kc-password-requirements">
+
+                            <span>
+                                ✓
+                            </span>
+
+                            <p>
+                                After confirmation, this transaction
+                                is saved and the product stock
+                                is reduced automatically.
+                            </p>
+
+                        </div>
+
+                    </form>
+
+                </article>
+            }
+
+        </section>
+    }
+
+
+    <!-- ==================================================
+         FINANCIAL HISTORY STORY
+         ================================================== -->
+
+    <section class="kc-inventory-value-panel">
+
+        <div class="kc-inventory-value-icon">
+            📈
+        </div>
+
+        <div>
+
+            <span class="kc-eyebrow">
+                More than a sale
+            </span>
+
+            <h3>
+                Every transaction builds
+                your digital business history.
+            </h3>
+
+            <p>
+                Recording everyday cash and credit sales
+                gives the entrepreneur a clearer view of
+                business activity while progressively
+                creating structured financial records
+                that did not exist before.
+            </p>
 
         </div>
-    }
+
+    </section>
 
 </div>
 
+
 @section Scripts
 {
-<script>
+    <script>
 
-document
-.querySelectorAll(".kc-sale-form")
-.forEach(function (form) {
+        document
+            .querySelectorAll(".kc-sale-form")
+            .forEach(function (form) {
 
-    const payment =
-        form.querySelector(
-            ".payment-type");
+                const payment =
+                    form.querySelector(
+                        ".payment-type");
 
-    const creditFields =
-        form.querySelector(
-            ".credit-fields");
+                const creditFields =
+                    form.querySelector(
+                        ".credit-fields");
 
-    const customerName =
-        form.querySelector(
-            ".customer-name");
+                const customerName =
+                    form.querySelector(
+                        ".customer-name");
 
-    const quantity =
-        form.querySelector(
-            ".quantity-input");
+                const quantity =
+                    form.querySelector(
+                        ".quantity-input");
 
-    const price =
-        parseFloat(
-            form.querySelector(
-                ".product-price"
-            ).value
-        );
+                const price =
+                    parseFloat(
+                        form.querySelector(
+                            ".product-price"
+                        ).value
+                    );
 
-    const total =
-        form.querySelector(
-            ".estimated-total");
+                const total =
+                    form.querySelector(
+                        ".estimated-total");
 
-    function updateCredit() {
 
-        const isCredit =
-            payment.value === "Credit";
+                function updateCredit() {
 
-        creditFields.classList.toggle(
-            "d-none",
-            !isCredit
-        );
+                    const isCredit =
+                        payment.value === "Credit";
 
-        customerName.required =
-            isCredit;
-    }
+                    creditFields.classList.toggle(
+                        "d-none",
+                        !isCredit
+                    );
 
-    function updateTotal() {
+                    customerName.required =
+                        isCredit;
+                }
 
-        let qty =
-            parseInt(
-                quantity.value
-            );
 
-        if (!qty || qty < 1) {
-            qty = 1;
-        }
+                function updateTotal() {
 
-        total.textContent =
-            "R " +
-            (price * qty)
-                .toFixed(2);
-    }
+                    let qty =
+                        parseInt(
+                            quantity.value
+                        );
 
-    payment.addEventListener(
-        "change",
-        updateCredit);
+                    if (!qty || qty < 1) {
+                        qty = 1;
+                    }
 
-    quantity.addEventListener(
-        "input",
-        updateTotal);
+                    if (qty >
+                        parseInt(quantity.max)) {
 
-    updateCredit();
-    updateTotal();
-});
+                        qty =
+                            parseInt(quantity.max);
+                    }
 
-</script>
+                    total.textContent =
+                        "R " +
+                        (price * qty)
+                            .toFixed(2);
+                }
+
+
+                payment.addEventListener(
+                    "change",
+                    updateCredit);
+
+
+                quantity.addEventListener(
+                    "input",
+                    updateTotal);
+
+
+                updateCredit();
+                updateTotal();
+            });
+
+    </script>
 }

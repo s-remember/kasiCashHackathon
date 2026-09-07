@@ -1,169 +1,607 @@
 @model IEnumerable<KasiCash.Models.CreditSale>
 
 @{
-    ViewData["Title"] = "Credit";
+    ViewData["Title"] = "Customer Credit";
+
+    var records = Model.ToList();
+
+    var outstandingRecords =
+        records
+            .Where(c => !c.IsPaid)
+            .ToList();
+
+    var paidRecords =
+        records
+            .Where(c => c.IsPaid)
+            .ToList();
+
+    var overdueRecords =
+        records
+            .Where(c =>
+                !c.IsPaid &&
+                c.DueDate.Date < DateTime.Today)
+            .ToList();
+
+    var outstandingAmount =
+        outstandingRecords
+            .Sum(c => c.AmountOwed);
+
+    var paidAmount =
+        paidRecords
+            .Sum(c => c.AmountOwed);
 }
 
 <div class="kc-page">
 
-    <section class="kc-page-header">
 
-        <div>
+    <!-- ==================================================
+         CREDIT HERO
+         ================================================== -->
+
+    <section class="kc-inventory-hero">
+
+        <div class="kc-inventory-hero-copy">
 
             <span class="kc-eyebrow">
                 Customer Credit
             </span>
 
             <h1>
-                Money Owed
+                Know exactly
+                who owes your business.
             </h1>
 
             <p>
-                Keep a reliable record of
-                customers who buy on credit.
+                Keep customer credit records in one place,
+                track due dates and mark accounts as paid
+                when money comes in. No forgotten names,
+                loose pages or missing debt records.
             </p>
+
+
+            <div class="kc-inventory-hero-actions">
+
+                <a asp-controller="Sales"
+                   asp-action="Create"
+                   class="kc-primary-button">
+
+                    + Record New Sale
+
+                </a>
+
+                <a asp-controller="Dashboard"
+                   asp-action="Index"
+                   class="kc-secondary-button">
+
+                    View Dashboard
+
+                </a>
+
+            </div>
 
         </div>
 
-        <a asp-controller="Sales"
-           asp-action="Create"
-           class="kc-primary-button">
 
-            + New Sale
+        <!-- Credit illustration -->
 
-        </a>
+        <div class="kc-inventory-hero-visual">
+
+            <div class="kc-inventory-image-frame">
+
+                <img src="~/images/credit-illustration.jpg"
+                     alt="Customer credit tracking"
+                     class="kc-inventory-image" />
+
+            </div>
+
+
+            <div class="kc-inventory-floating-card">
+
+                <span>
+                    Outstanding Credit
+                </span>
+
+                <strong>
+                    R @outstandingAmount.ToString("N2")
+                </strong>
+
+                <small>
+                    currently owed to the business
+                </small>
+
+            </div>
+
+        </div>
 
     </section>
+
+
+    <!-- ==================================================
+         SUCCESS MESSAGE
+         ================================================== -->
 
     @if (TempData["Success"] != null)
     {
         <div class="kc-alert-success">
-            @TempData["Success"]
+
+            ✓ @TempData["Success"]
+
         </div>
     }
 
-    @if (!Model.Any())
-    {
-        <div class="kc-panel kc-empty">
 
-            <span>🤝</span>
+    <!-- ==================================================
+         CREDIT SUMMARY
+         ================================================== -->
 
-            <h3>
-                No credit records
-            </h3>
+    <section class="kc-inventory-summary-grid">
+
+
+        <article class="kc-inventory-summary-card">
+
+            <div class="kc-inventory-summary-icon">
+                🤝
+            </div>
+
+            <div>
+
+                <span>
+                    Credit Records
+                </span>
+
+                <strong>
+                    @records.Count
+                </strong>
+
+                <small>
+                    Total customer credit sales
+                </small>
+
+            </div>
+
+        </article>
+
+
+        <article class="kc-inventory-summary-card">
+
+            <div class="kc-inventory-summary-icon">
+                💰
+            </div>
+
+            <div>
+
+                <span>
+                    Money Owed
+                </span>
+
+                <strong>
+                    R @outstandingAmount.ToString("N2")
+                </strong>
+
+                <small>
+                    Still outstanding
+                </small>
+
+            </div>
+
+        </article>
+
+
+        <article class="
+            kc-inventory-summary-card
+            @(overdueRecords.Any()
+                ? "kc-inventory-summary-warning"
+                : "")">
+
+            <div class="kc-inventory-summary-icon">
+                ⏰
+            </div>
+
+            <div>
+
+                <span>
+                    Overdue
+                </span>
+
+                <strong>
+                    @overdueRecords.Count
+                </strong>
+
+                <small>
+                    Account(s) past due date
+                </small>
+
+            </div>
+
+        </article>
+
+
+        <article class="kc-inventory-summary-card">
+
+            <div class="kc-inventory-summary-icon">
+                ✓
+            </div>
+
+            <div>
+
+                <span>
+                    Paid Accounts
+                </span>
+
+                <strong>
+                    @paidRecords.Count
+                </strong>
+
+                <small>
+                    R @paidAmount.ToString("N2") recorded as paid
+                </small>
+
+            </div>
+
+        </article>
+
+    </section>
+
+
+    <!-- ==================================================
+         LIST HEADER
+         ================================================== -->
+
+    <section class="kc-inventory-list-heading">
+
+        <div>
+
+            <span class="kc-eyebrow">
+                Credit ledger
+            </span>
+
+            <h2>
+                Customer Accounts
+            </h2>
 
             <p>
-                Credit sales will appear
-                here automatically.
+                Review outstanding balances,
+                due dates and repayment status.
             </p>
 
         </div>
-    }
-    else
-    {
-        <div class="kc-credit-list">
 
-        @foreach (var credit in Model)
+
+        @if (overdueRecords.Any())
         {
-            var overdue =
-                !credit.IsPaid &&
-                credit.DueDate.Date <
-                DateTime.Today;
+            <div class="kc-inventory-attention">
 
-            <article class="kc-credit-card">
+                <span>
+                    ⚠
+                </span>
 
                 <div>
 
-                    <div class="kc-credit-name">
+                    <strong>
+                        @overdueRecords.Count overdue
+                        account(s)
+                    </strong>
 
-                        @credit.CustomerName
+                    <small>
+                        These payments have passed
+                        their due date.
+                    </small>
+
+                </div>
+
+            </div>
+        }
+
+    </section>
+
+
+    <!-- ==================================================
+         EMPTY STATE
+         ================================================== -->
+
+    @if (!records.Any())
+    {
+        <section class="kc-inventory-empty">
+
+            <div class="kc-inventory-empty-icon">
+                🤝
+            </div>
+
+            <span class="kc-eyebrow">
+                Customer credit
+            </span>
+
+            <h2>
+                No credit records yet.
+            </h2>
+
+            <p>
+                When you process a sale and choose
+                Customer Credit as the payment method,
+                KasiCash automatically creates a record here.
+            </p>
+
+
+            <a asp-controller="Sales"
+               asp-action="Create"
+               class="kc-primary-button">
+
+                Record a Sale
+
+            </a>
+
+        </section>
+    }
+
+    else
+    {
+        <!-- ==================================================
+             CREDIT RECORDS
+             ================================================== -->
+
+        <div class="kc-credit-list">
+
+            @foreach (var credit in records)
+            {
+                var overdue =
+                    !credit.IsPaid &&
+                    credit.DueDate.Date <
+                    DateTime.Today;
+
+                var daysRemaining =
+                    (credit.DueDate.Date -
+                     DateTime.Today).Days;
+
+
+                <article class="kc-credit-card">
+
+
+                    <!-- Customer -->
+
+                    <div>
+
+                        <span class="kc-product-label">
+                            Customer
+                        </span>
+
+                        <div class="kc-credit-name">
+
+                            @credit.CustomerName
+
+                        </div>
+
+
+                        <div class="kc-credit-product">
+
+                            @(credit.Sale?.Product?.Name
+                                ?? "Product")
+
+
+                            @if (!string.IsNullOrWhiteSpace(
+                                credit.CustomerPhone))
+                            {
+                                <span>
+
+                                    • @credit.CustomerPhone
+
+                                </span>
+                            }
+
+                        </div>
 
                     </div>
 
-                    <div class="kc-credit-product">
 
-                        @(credit.Sale?.Product?.Name
-                            ?? "Product")
+                    <!-- Amount -->
 
-                        @if (!string.IsNullOrWhiteSpace(
-                            credit.CustomerPhone))
+                    <div class="kc-credit-amount">
+
+                        <span>
+                            Amount
+                        </span>
+
+                        <strong>
+
+                            R @(credit.AmountOwed.ToString(format: "N2"))
+
+                        </strong>
+
+                    </div>
+
+
+                    <!-- Due date -->
+
+                    <div class="kc-credit-amount">
+
+                        <span>
+                            Due Date
+                        </span>
+
+                        <strong style="font-size:0.88rem;">
+
+                            @(credit.DueDate.ToString(format: "dd MMM yyyy"))
+
+                        </strong>
+
+
+                        @if (!credit.IsPaid)
+                        {
+                            @if (overdue)
+                            {
+                                <span>
+                                    Payment overdue
+                                </span>
+                            }
+                            else if (daysRemaining == 0)
+                            {
+                                <span>
+                                    Due today
+                                </span>
+                            }
+                            else
+                            {
+                                <span>
+                                    @daysRemaining day(s) remaining
+                                </span>
+                            }
+                        }
+                        else if (credit.PaidDate.HasValue)
                         {
                             <span>
-                                • @credit.CustomerPhone
+                                Paid
+                                @(credit.PaidDate.Value.ToString(format: "dd MMM yyyy"))
                             </span>
                         }
 
                     </div>
 
-                </div>
 
-                <div class="kc-credit-amount">
+                    <!-- Status -->
 
-                    <strong>
-                        R @credit.AmountOwed
-                            .ToString("0.00")
-                    </strong>
+                    <div>
 
-                    <span>
-                        Due
-                        @credit.DueDate
-                            .ToString("dd MMM yyyy")
-                    </span>
+                        @if (credit.IsPaid)
+                        {
+                            <span class="kc-status success">
 
-                </div>
+                                ✓ Paid
 
-                <div>
+                            </span>
+                        }
+                        else if (overdue)
+                        {
+                            <span class="kc-status danger">
 
-                @if (credit.IsPaid)
-                {
-                    <span class="kc-status success">
-                        Paid
-                    </span>
-                }
-                else if (overdue)
-                {
-                    <span class="kc-status danger">
-                        Overdue
-                    </span>
-                }
-                else
-                {
-                    <span class="kc-status warning">
-                        Outstanding
-                    </span>
-                }
+                                Overdue
 
-                </div>
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="kc-status warning">
 
-                <div>
+                                Outstanding
 
-                @if (!credit.IsPaid)
-                {
-                    <form asp-action="MarkPaid"
-                          method="post">
+                            </span>
+                        }
 
-                        @Html.AntiForgeryToken()
+                    </div>
 
-                        <input type="hidden"
-                               name="id"
-                               value="@credit.Id" />
 
-                        <button type="submit"
-                                class="kc-small-button">
+                    <!-- Action -->
 
-                            Mark Paid
+                    <div>
 
-                        </button>
+                        @if (!credit.IsPaid)
+                        {
+                            <form asp-action="MarkPaid"
+                                  method="post">
 
-                    </form>
-                }
+                                @Html.AntiForgeryToken()
 
-                </div>
 
-            </article>
-        }
+                                <input type="hidden"
+                                       name="id"
+                                       value="@credit.Id" />
+
+
+                                <button type="submit"
+                                        class="kc-small-button">
+
+                                    ✓ Mark Paid
+
+                                </button>
+
+                            </form>
+                        }
+                        else
+                        {
+                            <span class="kc-product-label">
+
+                                Account settled
+
+                            </span>
+                        }
+
+                    </div>
+
+                </article>
+            }
 
         </div>
     }
+
+
+    <!-- ==================================================
+         WHY CREDIT TRACKING MATTERS
+         ================================================== -->
+
+    <section class="kc-inventory-value-panel">
+
+        <div class="kc-inventory-value-icon">
+            📒
+        </div>
+
+        <div>
+
+            <span class="kc-eyebrow">
+                Digital credit history
+            </span>
+
+            <h3>
+                Replace memory and notebooks
+                with reliable customer records.
+            </h3>
+
+            <p>
+                KasiCash links customer credit to
+                an actual recorded sale, giving the
+                business owner a clearer picture of
+                how much money is outstanding and
+                when repayments are expected.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         FINANCIAL IDENTITY MESSAGE
+         ================================================== -->
+
+    <section class="kc-inventory-value-panel">
+
+        <div class="kc-inventory-value-icon">
+            📈
+        </div>
+
+        <div>
+
+            <span class="kc-eyebrow">
+                Building financial history
+            </span>
+
+            <h3>
+                Credit activity becomes part
+                of the business story.
+            </h3>
+
+            <p>
+                Together with sales and inventory records,
+                customer credit activity contributes to
+                a structured digital history of how the
+                business operates and manages money over time.
+            </p>
+
+            <small>
+                KasiCash records business activity.
+                This is not a bank credit score or
+                lending decision.
+            </small>
+
+        </div>
+
+    </section>
 
 </div>

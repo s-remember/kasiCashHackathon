@@ -4,104 +4,493 @@
     ViewData["Title"] = "Add Product";
 }
 
-<div class="kc-auth-page">
+<div class="kc-page">
 
-    <div class="kc-form-card">
 
-        <span class="kc-eyebrow">
-            Inventory
-        </span>
+    <!-- ==================================================
+         PAGE INTRO
+         ================================================== -->
 
-        <h1>
-            Add Product
-        </h1>
+    <section class="kc-inventory-hero">
 
-        <p>
-            Add the product once.
-            KasiCash remembers the price
-            and stock for future sales.
-        </p>
+        <div class="kc-inventory-hero-copy">
 
-        <form asp-action="Create"
-              method="post">
+            <span class="kc-eyebrow">
+                Inventory setup
+            </span>
 
-            @Html.AntiForgeryToken()
+            <h1>
+                Add a product
+                once. Sell it faster
+                every day.
+            </h1>
 
-            <div asp-validation-summary="ModelOnly"
-                 class="text-danger">
+            <p>
+                Save the product name, selling price
+                and stock level once. KasiCash will use
+                these details when recording future sales
+                and automatically keep track of inventory.
+            </p>
+
+
+            <div class="kc-inventory-hero-actions">
+
+                <a asp-action="Index"
+                   class="kc-secondary-button">
+
+                    ← Back to Inventory
+
+                </a>
+
             </div>
 
-            <div class="kc-field">
+        </div>
 
-                <label asp-for="Name">
-                    Product Name
-                </label>
 
-                <input asp-for="Name"
-                       placeholder="e.g. White Bread" />
+        <!-- Controlled image -->
 
-                <span asp-validation-for="Name"
-                      class="text-danger">
+        <div class="kc-inventory-hero-visual">
+
+            <div class="kc-inventory-image-frame">
+
+                <img src="~/images/stock-illustration.jpg"
+                     alt="Adding and managing business stock"
+                     class="kc-inventory-image" />
+
+            </div>
+
+
+            <div class="kc-inventory-floating-card">
+
+                <span>
+                    Simple Setup
                 </span>
 
-            </div>
-
-            <div class="kc-field">
-
-                <label asp-for="SellingPrice">
-                    Selling Price
-                </label>
-
-                <input asp-for="SellingPrice"
-                       type="number"
-                       min="0.01"
-                       step="0.01"
-                       placeholder="20.00" />
-
-            </div>
-
-            <div class="kc-field">
-
-                <label asp-for="QuantityInStock">
-                    Quantity In Stock
-                </label>
-
-                <input asp-for="QuantityInStock"
-                       type="number"
-                       min="0"
-                       placeholder="30" />
-
-            </div>
-
-            <div class="kc-field">
-
-                <label asp-for="LowStockLevel">
-                    Low Stock Warning
-                </label>
-
-                <input asp-for="LowStockLevel"
-                       type="number"
-                       min="0" />
+                <strong>
+                    4 details
+                </strong>
 
                 <small>
-                    We'll warn you when stock reaches
-                    this amount.
+                    Then the product is ready
+                    for future sales.
                 </small>
 
             </div>
 
-            <button type="submit"
-                    class="kc-primary-button w-100">
-                Add Product
-            </button>
+        </div>
 
-            <a asp-action="Index"
-               class="kc-text-link">
-                Back to stock
-            </a>
+    </section>
 
-        </form>
+
+    <!-- ==================================================
+         FORM AREA
+         ================================================== -->
+
+    <div class="kc-dashboard-grid">
+
+
+        <!-- Product form -->
+
+        <section class="kc-panel">
+
+            <div class="kc-panel-title">
+
+                <div>
+
+                    <span class="kc-eyebrow">
+                        New inventory item
+                    </span>
+
+                    <h2>
+                        Product Details
+                    </h2>
+
+                    <p>
+                        Enter the information KasiCash
+                        needs to manage this product.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form asp-action="Create"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+
+                <div asp-validation-summary="ModelOnly"
+                     class="kc-alert-error">
+                </div>
+
+
+                <!-- ==================================================
+                     PRODUCT INFORMATION
+                     ================================================== -->
+
+                <div class="kc-register-section">
+
+                    <div class="kc-register-section-title">
+
+                        <span>
+                            01
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Product information
+                            </strong>
+
+                            <small>
+                                Identify what you are selling
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="kc-field">
+
+                        <label asp-for="Name">
+                            Product Name
+                        </label>
+
+                        <input asp-for="Name"
+                               placeholder="e.g. White Bread"
+                               autocomplete="off" />
+
+                        <span asp-validation-for="Name"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==================================================
+                     PRICE
+                     ================================================== -->
+
+                <div class="kc-register-section">
+
+                    <div class="kc-register-section-title">
+
+                        <span>
+                            02
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Selling price
+                            </strong>
+
+                            <small>
+                                The price customers pay
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="kc-field">
+
+                        <label asp-for="SellingPrice">
+                            Selling Price (R)
+                        </label>
+
+                        <input asp-for="SellingPrice"
+                               type="number"
+                               min="0.01"
+                               step="0.01"
+                               placeholder="e.g. 20.00" />
+
+                        <span asp-validation-for="SellingPrice"
+                              class="text-danger">
+                        </span>
+
+                        <small>
+                            KasiCash uses this price to
+                            calculate sale totals automatically.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==================================================
+                     STOCK SETTINGS
+                     ================================================== -->
+
+                <div class="kc-register-section">
+
+                    <div class="kc-register-section-title">
+
+                        <span>
+                            03
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Stock settings
+                            </strong>
+
+                            <small>
+                                Tell KasiCash how much you have
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="kc-two-fields">
+
+
+                        <div class="kc-field">
+
+                            <label asp-for="QuantityInStock">
+                                Current Quantity
+                            </label>
+
+                            <input asp-for="QuantityInStock"
+                                   type="number"
+                                   min="0"
+                                   placeholder="e.g. 30" />
+
+                            <span asp-validation-for="QuantityInStock"
+                                  class="text-danger">
+                            </span>
+
+                            <small>
+                                Units currently available.
+                            </small>
+
+                        </div>
+
+
+                        <div class="kc-field">
+
+                            <label asp-for="LowStockLevel">
+                                Low Stock Alert
+                            </label>
+
+                            <input asp-for="LowStockLevel"
+                                   type="number"
+                                   min="0"
+                                   placeholder="e.g. 5" />
+
+                            <span asp-validation-for="LowStockLevel"
+                                  class="text-danger">
+                            </span>
+
+                            <small>
+                                KasiCash warns you when
+                                stock reaches this number.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Helpful note -->
+
+                <div class="kc-password-requirements">
+
+                    <span>
+                        💡
+                    </span>
+
+                    <p>
+                        After this product is saved,
+                        recording a sale will automatically
+                        reduce its available stock.
+                    </p>
+
+                </div>
+
+
+                <div style="
+                    display:flex;
+                    gap:12px;
+                    flex-wrap:wrap;
+                    margin-top:24px;">
+
+                    <button type="submit"
+                            class="kc-primary-button">
+
+                        + Add Product
+
+                    </button>
+
+
+                    <a asp-action="Index"
+                       class="kc-secondary-button">
+
+                        Cancel
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- ==================================================
+             HOW IT WORKS
+             ================================================== -->
+
+        <aside class="kc-panel">
+
+            <div class="kc-panel-title">
+
+                <div>
+
+                    <span class="kc-eyebrow">
+                        Smart inventory
+                    </span>
+
+                    <h2>
+                        What happens next?
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="kc-register-benefits">
+
+
+                <div class="kc-action">
+
+                    <span class="kc-action-visual">
+                        1
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Product is saved
+                        </strong>
+
+                        <small>
+                            Name, price and available
+                            quantity are stored.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="kc-action">
+
+                    <span class="kc-action-visual">
+                        2
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Product becomes sellable
+                        </strong>
+
+                        <small>
+                            It appears when you process
+                            a customer sale.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="kc-action">
+
+                    <span class="kc-action-visual">
+                        3
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Stock updates
+                        </strong>
+
+                        <small>
+                            Sold quantities are automatically
+                            removed from inventory.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="kc-action">
+
+                    <span class="kc-action-visual">
+                        4
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Alerts protect stock
+                        </strong>
+
+                        <small>
+                            KasiCash highlights products
+                            approaching their warning level.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="kc-insight">
+
+                <strong>
+                    Digital business record
+                </strong>
+
+                <span>
+                    Consistent inventory and sales records
+                    help create a clearer picture of how
+                    your business operates.
+                </span>
+
+            </div>
+
+        </aside>
 
     </div>
 
 </div>
+
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial");
+    }
+
+}

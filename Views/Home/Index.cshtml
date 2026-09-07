@@ -2,25 +2,29 @@
     ViewData["Title"] = "Home";
 }
 
+<!-- ======================================================
+     HERO
+     ====================================================== -->
+
 <section class="kc-hero">
 
     <div class="kc-hero-copy">
 
-        <div class="kc-eyebrow">
+        <span class="kc-eyebrow">
             Built for kasi entrepreneurs
-        </div>
+        </span>
 
         <h1>
-            Your till.
-            Your stock.
-            Your financial story.
+            Turn everyday cash
+            into a digital
+            business story.
         </h1>
 
         <p>
             KasiCash helps informal and micro-businesses
             record everyday sales, manage stock,
-            track customer credit and build a trusted
-            digital record of business activity.
+            track customer credit and progressively
+            build a digital history of real business activity.
         </p>
 
         <div class="kc-hero-actions">
@@ -28,71 +32,138 @@
             <a asp-controller="Account"
                asp-action="Register"
                class="kc-primary-button">
+
                 Start with KasiCash
+
             </a>
 
-            <a asp-controller="Account"
-               asp-action="Login"
+            <a href="#how-it-works"
                class="kc-secondary-button">
-                Sign in
+
+                See how it works
+
             </a>
 
         </div>
 
         <div class="kc-trust-row">
 
-            <span>✓ Simple sales</span>
-            <span>✓ Stock alerts</span>
-            <span>✓ Credit tracking</span>
+            <span>
+                ✓ Simple sales
+            </span>
+
+            <span>
+                ✓ Smart stock
+            </span>
+
+            <span>
+                ✓ Customer credit
+            </span>
+
+            <span>
+                ✓ Financial history
+            </span>
 
         </div>
 
     </div>
 
-    <div class="kc-hero-card">
 
-        <div class="kc-preview-top">
+    <!-- Hero image -->
+
+    <div class="kc-hero-visual">
+
+        <div class="kc-hero-image-frame">
+
+            <img src="~/images/kasi.jpg"
+                 alt="Kasi entrepreneur running a small business"
+                 class="kc-hero-image" />
+
+            <div class="kc-hero-image-overlay">
+            </div>
+
+            <div class="kc-hero-image-caption">
+
+                <span>
+                    From cash to digital
+                </span>
+
+                <strong>
+                    Your daily transactions can become
+                    meaningful business records.
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="kc-hero-business-card">
 
             <span>
-                Today's business
+                Today's recorded sales
             </span>
 
-            <span class="kc-live">
-                ● LIVE
-            </span>
+            <strong>
+                R2 480
+            </strong>
 
-        </div>
-
-        <div class="kc-preview-amount">
-            R 2,480.00
-        </div>
-
-        <div class="kc-preview-label">
-            Recorded sales
-        </div>
-
-        <div class="kc-preview-grid">
-
-            <div>
-                <strong>18</strong>
-                <span>Sales</span>
-            </div>
-
-            <div>
-                <strong>4</strong>
-                <span>Credit</span>
-            </div>
-
-            <div>
-                <strong>3</strong>
-                <span>Low stock</span>
-            </div>
+            <small>
+                18 digital transactions
+            </small>
 
         </div>
 
     </div>
 
 </section>
+
+
+<!-- ======================================================
+     CHALLENGE STORY
+     ====================================================== -->
+
+<section class="kc-story-strip">
+
+    <div class="kc-story-strip-inner">
+
+        <div class="kc-story-strip-title">
+
+            <span>
+                The opportunity
+            </span>
+
+            <h2>
+                A cash business should still
+                have a financial footprint.
+            </h2>
+
+        </div>
+
+
+        <p class="kc-story-strip-text">
+
+            Many informal businesses trade successfully
+            every day but leave little digital evidence
+            of their sales, stock movement or customer
+            credit.
+
+            KasiCash turns those everyday activities
+            into structured records that help the
+            entrepreneur understand the business
+            and progressively build a stronger
+            digital financial profile.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     FEATURES
+     ====================================================== -->
 
 <section id="features"
          class="kc-section">
@@ -100,84 +171,371 @@
     <div class="kc-section-heading">
 
         <span class="kc-eyebrow">
-            One place. Less admin.
+            Digitisation with immediate value
         </span>
 
         <h2>
-            Everything the shop owner needs
-            during a busy day.
+            Useful today.
+            Valuable for tomorrow.
         </h2>
+
+        <p>
+            KasiCash makes digitisation worthwhile for
+            the entrepreneur first — by helping with
+            sales, stock and customer credit — while
+            building usable business history over time.
+        </p>
 
     </div>
 
+
     <div class="kc-feature-grid">
 
+
+        <!-- Sales -->
+
         <article class="kc-feature-card">
 
-            <div class="kc-feature-icon">
-                🛒
+            <div class="kc-feature-image-wrap">
+
+                <img src="~/images/sales-illustration.jpg"
+                     alt="Digital sales recording"
+                     class="kc-feature-image" />
+
+            </div>
+
+            <div class="kc-feature-body">
+
+                <div class="kc-feature-number">
+                    01
+                </div>
+
+                <h3>
+                    Record Sales
+                </h3>
+
+                <p>
+                    Capture everyday cash and credit
+                    transactions so business activity
+                    no longer disappears when the
+                    cash leaves the till.
+                </p>
+
+            </div>
+
+        </article>
+
+
+        <!-- Stock -->
+
+        <article class="kc-feature-card">
+
+            <div class="kc-feature-image-wrap">
+
+                <img src="~/images/stock-illustration.jpg"
+                     alt="Inventory and stock management"
+                     class="kc-feature-image" />
+
+            </div>
+
+            <div class="kc-feature-body">
+
+                <div class="kc-feature-number">
+                    02
+                </div>
+
+                <h3>
+                    Manage Inventory
+                </h3>
+
+                <p>
+                    Stock automatically reduces after
+                    each sale and low-stock warnings
+                    help the entrepreneur know what
+                    needs restocking.
+                </p>
+
+            </div>
+
+        </article>
+
+
+        <!-- Credit -->
+
+        <article class="kc-feature-card">
+
+            <div class="kc-feature-image-wrap">
+
+                <img src="~/images/credit-illustration.jpg"
+                     alt="Customer credit management"
+                     class="kc-feature-image" />
+
+            </div>
+
+            <div class="kc-feature-body">
+
+                <div class="kc-feature-number">
+                    03
+                </div>
+
+                <h3>
+                    Track Customer Credit
+                </h3>
+
+                <p>
+                    Replace handwritten debt books with
+                    digital records showing who owes
+                    the business, how much is owed
+                    and when payment is due.
+                </p>
+
+            </div>
+
+        </article>
+
+
+        <!-- Financial history -->
+
+        <article class="kc-feature-card">
+
+            <div class="kc-feature-image-wrap">
+
+                <img src="~/images/financialhistory-illustration.jpg"
+                     alt="Digital financial history"
+                     class="kc-feature-image" />
+
+            </div>
+
+            <div class="kc-feature-body">
+
+                <div class="kc-feature-number">
+                    04
+                </div>
+
+                <h3>
+                    Build Financial History
+                </h3>
+
+                <p>
+                    Every recorded transaction adds
+                    evidence of business activity,
+                    progressively creating a stronger
+                    digital financial footprint.
+                </p>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     FINANCIAL IDENTITY STORY
+     ====================================================== -->
+
+<section class="kc-identity-section">
+
+    <div class="kc-identity-card">
+
+
+        <div class="kc-identity-image-wrap">
+
+            <img src="~/images/financialhistory-illustration.jpg"
+                 alt="Business financial history and growth"
+                 class="kc-identity-image" />
+
+        </div>
+
+
+        <div class="kc-identity-copy">
+
+            <span class="kc-eyebrow">
+                More than a POS
+            </span>
+
+            <h2>
+                Progressively build a digital
+                financial identity.
+            </h2>
+
+            <p>
+                KasiCash does more than capture a sale.
+                It creates structured evidence of how
+                the business operates.
+
+                Over time, this record could help
+                entrepreneurs demonstrate business
+                activity when exploring services such
+                as finance, insurance and other
+                growth opportunities.
+            </p>
+
+
+            <div class="kc-identity-points">
+
+                <div class="kc-identity-point">
+
+                    <strong>
+                        Sales history
+                    </strong>
+
+                    <span>
+                        Evidence of recorded
+                        business turnover.
+                    </span>
+
+                </div>
+
+
+                <div class="kc-identity-point">
+
+                    <strong>
+                        Stock behaviour
+                    </strong>
+
+                    <span>
+                        Visibility into inventory
+                        movement and restocking.
+                    </span>
+
+                </div>
+
+
+                <div class="kc-identity-point">
+
+                    <strong>
+                        Credit records
+                    </strong>
+
+                    <span>
+                        A structured history of
+                        customer debt activity.
+                    </span>
+
+                </div>
+
+
+                <div class="kc-identity-point">
+
+                    <strong>
+                        Business consistency
+                    </strong>
+
+                    <span>
+                        A growing digital record
+                        of daily operations.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     HOW IT WORKS
+     ====================================================== -->
+
+<section id="how-it-works"
+         class="kc-section kc-soft-section">
+
+    <div class="kc-section-heading">
+
+        <span class="kc-eyebrow">
+            Cash trader → digital business
+        </span>
+
+        <h2>
+            Four simple steps.
+        </h2>
+
+        <p>
+            The entrepreneur receives immediate business
+            value while KasiCash progressively creates
+            a structured record of business activity.
+        </p>
+
+    </div>
+
+
+    <div class="kc-steps">
+
+
+        <article class="kc-step-card">
+
+            <div class="kc-step-number">
+                1
             </div>
 
             <h3>
-                Fast POS Sales
+                Record
             </h3>
 
             <p>
-                Select a product, quantity and payment
-                type. KasiCash calculates the total
-                automatically.
+                Capture cash and credit sales
+                as they happen.
             </p>
 
         </article>
 
-        <article class="kc-feature-card">
 
-            <div class="kc-feature-icon">
-                📦
+        <article class="kc-step-card">
+
+            <div class="kc-step-number">
+                2
             </div>
 
             <h3>
-                Smart Stock
+                Manage
             </h3>
 
             <p>
-                Stock decreases automatically after each
-                sale and low-stock items are highlighted.
+                Track inventory and customer
+                money owed.
             </p>
 
         </article>
 
-        <article class="kc-feature-card">
 
-            <div class="kc-feature-icon">
-                🤝
+        <article class="kc-step-card">
+
+            <div class="kc-step-number">
+                3
             </div>
 
             <h3>
-                Customer Credit
+                Understand
             </h3>
 
             <p>
-                Know who owes your business, how much
-                they owe and when payment is due.
+                Use the dashboard to understand
+                actual business activity.
             </p>
 
         </article>
 
-        <article class="kc-feature-card">
 
-            <div class="kc-feature-icon">
-                📈
+        <article class="kc-step-card">
+
+            <div class="kc-step-number">
+                4
             </div>
 
             <h3>
-                Financial Footprint
+                Build
             </h3>
 
             <p>
-                Every recorded transaction contributes
-                to a growing digital history of the
-                business.
+                Progressively create a digital
+                financial history.
             </p>
 
         </article>
@@ -186,58 +544,42 @@
 
 </section>
 
-<section id="how-it-works"
-         class="kc-section kc-soft-section">
 
-    <div class="kc-section-heading">
+<!-- ======================================================
+     CTA
+     ====================================================== -->
 
-        <span class="kc-eyebrow">
-            How it works
+<section class="kc-home-cta">
+
+    <div>
+
+        <span class="kc-eyebrow"
+              style="color:#b9ea73;">
+
+            KasiCash
+
         </span>
 
         <h2>
-            From a cash transaction
-            to usable business history.
+            Your business activity
+            should count.
         </h2>
 
-    </div>
-
-    <div class="kc-steps">
-
-        <div>
-            <span>1</span>
-            <h3>Record</h3>
-            <p>
-                Capture cash and credit sales.
-            </p>
-        </div>
-
-        <div>
-            <span>2</span>
-            <h3>Manage</h3>
-            <p>
-                Monitor stock and customer debt.
-            </p>
-        </div>
-
-        <div>
-            <span>3</span>
-            <h3>Understand</h3>
-            <p>
-                See real business activity
-                on your dashboard.
-            </p>
-        </div>
-
-        <div>
-            <span>4</span>
-            <h3>Grow</h3>
-            <p>
-                Build a stronger digital
-                financial footprint.
-            </p>
-        </div>
+        <p>
+            Start turning everyday sales,
+            stock movement and customer credit
+            into meaningful digital records.
+        </p>
 
     </div>
+
+
+    <a asp-controller="Account"
+       asp-action="Register"
+       class="kc-secondary-button">
+
+        Create Business Account
+
+    </a>
 
 </section>
